@@ -1,0 +1,5 @@
+@if (formUtils.isValidField(form(), fieldName())) {
+  <span class="text-error font-semibold">
+    {{formUtils.getFieldError(form(), fieldName())}}
+  </span>
+}

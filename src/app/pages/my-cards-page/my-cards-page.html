@@ -1,0 +1,118 @@
+<router-outlet/>
+
+
+<div class="min-h-[calc(100vh-4rem)] bg-blue-50 flex justify-center">
+  <div class="container rounded-box shadow-md border-2 border-base-200 bg-white mt-5">
+
+    <h1 class="text-3xl font-bold mt-5 ml-5">Mis tarjetas</h1>
+    <div class="divider"></div>
+
+
+    <div class="grid grid-cols-1 lg:grid-cols-10">
+      <div class="col-span-3 mx-5 ">
+        <cards-list [cardsData]="cardsResource.value() ?? []"
+                    [errorMessage]="cardsResource.error()"
+                    [isEmpty]="!cardsResource.value()"
+                    [isLoading]="cardsResource.isLoading()"
+                    (selectedCard)="cardInfo.set($event)"
+         />
+      </div>
+
+      @if (cardInfo()!) {
+        <div class="flex flex-col items-center col-span-7 mx-5 transition-all duration-300 animate-fadeIn">
+          <div class="hover-3d my-12 cursor-pointer">
+            <!-- content -->
+            <div class="card w-100 h-60 text-white text-shadow-md text-shadow-black brightness-95 saturate-75 bg-[radial-gradient(circle_at_bottom_left,#ffffff04_35%,transparent_36%),radial-gradient(circle_at_top_right,#ffffff04_35%,transparent_36%)] bg-size-[4.95em_4.95em]" [style.background-color]="cardInfo()!.accSettings.color">
+              <div class="card-body">
+                <div class="flex justify-between mb-8">
+                  <div class="font-bold">{{cardInfo()!.accInfo.bankName}} - {{cardInfo()!.accInfo.productName}}</div>
+                  <div class=" flex flex-col justify-end items-center">
+                    <span class="text-5xl w-10">
+                      <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000"><g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)" fill="#ffffff" stroke="none"> <path d="M1974 2180 c-251 -269 -460 -490 -463 -490 -3 0 -62 105 -130 233 -68 127 -132 241 -142 252 -18 18 -35 20 -202 23 -108 2 -194 -1 -209 -7 -15 -6 -38 -27 -51 -48 -22 -34 -528 -983 -706 -1324 -80 -152 -85 -181 -44 -229 26 -32 28 -32 92 -27 38 3 292 66 596 149 506 137 530 144 539 169 15 44 0 70 -103 177 -83 86 -104 102 -130 102 -17 0 -115 -23 -217 -50 -103 -28 -189 -49 -191 -47 -4 5 400 767 407 767 3 -1 151 -276 329 -613 178 -337 333 -622 344 -635 20 -21 27 -22 177 -22 151 0 157 1 178 23 12 13 22 28 22 34 0 6 -86 172 -190 368 l-191 357 23 29 c13 15 86 95 163 178 125 134 141 148 153 133 8 -9 141 -257 296 -549 156 -293 291 -542 301 -553 17 -18 31 -20 176 -20 l158 0 20 26 c12 15 21 30 21 34 0 5 -50 102 -111 217 -61 114 -224 419 -361 677 l-250 469 64 66 c35 36 94 98 130 136 35 39 120 129 186 200 77 82 122 138 122 151 0 45 -31 64 -160 100 -69 18 -139 34 -157 34 -29 0 -70 -41 -489 -490z" /></g></svg>
+                    </span>
+                    <span class="capitalize">{{formUtils.paymentTypeTranslations[cardInfo()!.accInfo.paymentType]}}</span>
+                  </div>
+                </div>
+                <div class="text-lg mb-4">{{cardInfo()!.accInfo.titularName ? cardInfo()!.accInfo.titularName : '0000 0000 0000 0000'}}</div>
+                <div class="flex justify-between">
+                  <div>
+                    <div class="text-xs">Disponible / Saldo</div>
+                    <div>${{cardInfo()!.balanceInfo.balance}}</div>
+                  </div>
+                  <div>
+                    <div class="text-xs">Dia de corte</div>
+                    <div>{{cardInfo()!.balanceInfo.cutoffDay}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+
+
+          <div class="stats shadow w-full">
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  class="inline-block h-8 w-8 stroke-current">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div class="stat-title">Downloads</div>
+              <div class="stat-value">31K</div>
+              <div class="stat-desc">Jan 1st - Feb 1st</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  class="inline-block h-8 w-8 stroke-current">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                  </path>
+                </svg>
+              </div>
+              <div class="stat-title">New Users</div>
+              <div class="stat-value">4,200</div>
+              <div class="stat-desc">↗︎ 400 (22%)</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  class="inline-block h-8 w-8 stroke-current">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                </svg>
+              </div>
+              <div class="stat-title">New Registers</div>
+              <div class="stat-value">1,200</div>
+              <div class="stat-desc">↘︎ 90 (14%)</div>
+            </div>
+          </div>
+
+        </div>
+      }
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+
+

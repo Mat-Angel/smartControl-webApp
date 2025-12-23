@@ -1,0 +1,11 @@
+<div class="hero min-h-[calc(100vh)]" [style]="`background-image: url(${baseUrl}background2.webp);`">
+  <div class="flex flex-col items-center justify-center  rounded-xl bg-black/20 backdrop-blur-md border border-white/20 shadow-lg w-full md:w-190 min-h-100 h-[calc(100vh-50%)]">
+    <div class="mt-5">
+      <img [src]="`${baseUrl}MAT_complete_minimal.png`" width="300" title="MAT Angel" draggable="false">
+    </div>
+    <div class="mt-5 font-bold text-cyan-500 text-3xl">{{authType() | titlecase}}</div>
+    <div  class="mt-5">
+      <router-outlet />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+@if ( authService.authStatus() === 'not-authenticated') {
+<a (click)="navigationService.navigateLogin()" class="btn btn-ghost text-decoration-none d-flex flex-row align-items-center gap-2">
+  <span class="hidden sm:block text-white">Login</span>
+  <img class="rounded-circle" [src]='authService.photoName() | avatarImage' title="MAT Angel" width="40px" draggable="false">
+</a>
+} @else if( authService.authStatus() === 'authenticated' ) {
+<div class="dropdown dropdown-end">
+  <a tabindex="0" role="button" class="btn btn-ghost text-decoration-none d-flex flex-row align-items-center gap-2">
+    <span class="hidden sm:block text-white">{{authService.displayName() ? authService.displayName() : authService.userEmail()}}</span>
+    <img class="rounded-circle" [src]='authService.photoName() | avatarImage' title="MAT Angel" width="40px" draggable="false">
+  </a>
+  <div tabindex="0" class="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md">
+    <div class="card-body">
+        <div class="row g-0 text-black">
+    <div class="col-3">
+      <img  class="w-100 mx-2" [src]='authService.photoName() | avatarImage' alt="avatar" draggable="false">
+    </div>
+    <div class="col-9">
+      <div class="px-2 m-2">
+        <p class="fw-bold m-0">{{authService.displayName()}}</p>
+        <p class="fw-light text-truncate">{{authService.userEmail()}}</p>
+      </div>
+    </div>
+  </div>
+  <button class="mx-2 my-2 w-50" matButton="elevated" (click)="authService.logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout
+  </button>
+    </div>
+  </div>
+</div>
+
+} @else {
+<div class="spinner-grow" style="width: 40px; height:40px;" role="status"></div>
+}

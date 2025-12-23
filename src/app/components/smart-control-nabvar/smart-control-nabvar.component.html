@@ -1,0 +1,26 @@
+<div class="navbar flex justify-center bg-blue-950 shadow-sm">
+  <div class="container flex justify-between">
+    <a class="hidden sm:block" href="https://mat-angel.com">
+      <img [src]="`${baseUrl}neon_mat_2025.png`" width="125" title="MAT Angel" draggable="false">
+    </a>
+    <a class="block sm:hidden mx-2" href="https://mat-angel.com">
+      <img class="h-12" [src]="`${baseUrl}Mat_neon-black_icon.webp`" title="MAT Angel" draggable="false">
+    </a>
+
+    <a [routerLink]="['/movements']">
+      <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" width="125" title="SmartControl logo" draggable="false">
+    </a>
+    <profile-info />
+  </div>
+</div>
+
+<div class="navbar flex justify-center bg-blue-900 text-white min-h-7 h-7 ">
+  <div class="container flex justify-start overflow-x-auto">
+    @for (route of routes; track $index) {
+      <div class="md:mr-10 btn btn-ghost min-h-7 h-7 font-semibold hover:bg-base-100/10 hover:text-cyan-500 hover:border-blue-900"
+           [routerLink]="['/', route.path]" routerLinkActive="text-cyan-500">
+        {{route.title}}
+      </div>
+    }
+  </div>
+</div>

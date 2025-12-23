@@ -1,0 +1,91 @@
+@if (detailData()) {
+<div class="overflow-x-auto">
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>
+          <div class="flex flex-col">
+            <div class="text-sm opacity-50">Nombre de comercio/establecimiento</div>
+            <div class="text-md font-bold">{{detailData()?.title}}</div>
+          </div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="flex flex-col">
+            <div class="text-sm opacity-50">Descripción</div>
+            <div class="text-md font-bold">{{detailData()?.description}}</div>
+          </div>
+          </td>
+      </tr>
+      <tr>
+        <td class="flex row justify-between">
+          <div class="flex flex-col w-full">
+            <div class="text-sm opacity-50">Monto</div>
+            <div class="text-md font-bold">{{detailData()?.amount | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
+          </div>
+          <span class="divider divider-horizontal"></span>
+          <div class="flex flex-col w-full">
+            <div class="text-sm opacity-50">Fecha de operación</div>
+            <div class="text-md font-bold">{{detailData()?.operationDate | date: "dd/MMM/yyyy"}}</div>
+          </div>
+          </td>
+      </tr>
+      <tr>
+        <td class="flex row justify-between">
+          <div class="flex flex-col w-full">
+            <div class="text-sm opacity-50">Tipo de transacción</div>
+            <div class="text-md font-bold capitalize">{{formUtils.transactionTypeTranslations[detailData()!.transactionType]}}</div>
+          </div>
+          <span class="divider divider-horizontal"></span>
+          <div class="flex flex-col w-full">
+            <div class="text-sm opacity-50">Categoria</div>
+            <div class="text-md font-bold">{{detailData()?.category}}</div>
+          </div>
+          </td>
+      </tr>
+      @if(detailData()?.periodicTransaction){
+        <tr>
+          <td class="flex row justify-between">
+            <div class="flex flex-col w-full">
+              <div class="text-sm opacity-50">Estado de suscripción</div>
+              <div class="text-md font-bold" [class.text-success]="detailData()?.periodicTransaction?.isActive" [class.text-error]="!detailData()?.periodicTransaction?.isActive">{{detailData()?.periodicTransaction?.isActive ? "Activa" : "Inactiva"}}</div>
+            </div>
+            <span class="divider divider-horizontal"></span>
+            <div class="flex flex-col w-full">
+              <div class="text-sm opacity-50">Día de cobro</div>
+              <div class="text-md font-bold">{{detailData()?.periodicTransaction?.every}}</div>
+            </div>
+            </td>
+        </tr>
+        <tr>
+          <td class="flex row justify-between">
+            <div class="flex flex-col w-full">
+              <div class="text-sm opacity-50">Periodicidad</div>
+              <div class="text-md font-bold">Cada {{formUtils.periodicityTranslations[detailData()!.periodicTransaction!.periodicity]}}</div>
+            </div>
+            @if(detailData()?.periodicTransaction?.installment?.total){
+            <span class="divider divider-horizontal"></span>
+            <div class="flex flex-col w-full">
+              <div class="text-sm opacity-50">Mensualidad</div>
+              <div class="text-md font-bold">{{detailData()?.periodicTransaction?.installment?.current}} de {{detailData()?.periodicTransaction?.installment?.total}}</div>
+            </div>
+            }
+          </td>
+        </tr>
+      }
+      <tr>
+        <td>
+          <div class="flex flex-col">
+            <div class="text-sm opacity-50">Informaciónde pago (Cuenta / Tarjeta)</div>
+            <div class="text-md font-bold">{{detailData()?.paymentInfo?.bankName}} - {{detailData()?.paymentInfo?.title}}</div>
+          </div>
+          </td>
+      </tr>
+      <!-- <tr class="hover:bg-base-300">
+        <td>Hart Hagerty</td>
+      </tr> -->
+    </tbody>
+  </table>
+</div>
+}

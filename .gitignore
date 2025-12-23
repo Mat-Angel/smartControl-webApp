@@ -1,5 +1,10 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# Environments
+.env
+environment.development.ts
+environment.ts
+
 # Compiled output
 /dist
 /tmp
@@ -10,6 +15,9 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+
+# Firebase
+/.firebase
 
 # IDEs and editors
 .idea/

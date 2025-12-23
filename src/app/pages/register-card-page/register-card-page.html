@@ -1,0 +1,84 @@
+<div class="fixed inset-0 bg-black/60 z-50 flex flex-col items-center justify-center">
+  <div class="min-h-[calc(100vh-4rem)] w-full md:w-[80%] flex justify-center">
+    <div class="container rounded-box shadow-md border-2 border-base-200 bg-white mt-5">
+      <h1 class="text-3xl font-bold mt-5 ml-5">Registrar Tarjeta</h1>
+      <div class="divider"></div>
+      <h1 class="text-xl font-bold mt-5 ml-5">Datos generales</h1>
+
+      <form autocomplete="off" [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+        <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Tipo de tarjeta</legend>
+            <select #paymentType class="select w-full" formControlName="paymentType" (change)="onChangePaymenTypeOptions(paymentType.value)">
+              <option disabled selected value="">Seleccione tipo</option>
+              @for (option of formUtils.PaymentTypeOptions; track $index) {
+                <option [value]="option.value" class="capitalize">{{option.label}}</option>
+              }
+            </select>
+            <form-text-helper [form]="cardForm" fieldName="paymentType"></form-text-helper>
+          </div>
+
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Nombre de banco</legend>
+            <input type="text" class="input w-full" placeholder="Ingrese nombre de banco" formControlName="bankName" />
+            <form-text-helper [form]="cardForm" fieldName="bankName"></form-text-helper>
+          </div>
+
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Nombre de producto</legend>
+            <input type="text" class="input w-full" placeholder="Ingrese nombre de producto" formControlName="productName" />
+            <form-text-helper [form]="cardForm" fieldName="productName"></form-text-helper>
+          </div>
+
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Nombre del titular</legend>
+            <input type="text" class="input w-full" placeholder="Ingrese nombre del titular" formControlName="titularName" />
+            <form-text-helper [form]="cardForm" fieldName="titularName"></form-text-helper>
+          </div>
+
+          @if (cardForm.controls['paymentType'].value === "credit") {
+            <div class="flex flex-col col-span-2 mr-3">
+              <legend class="fieldset-legend">Línea de crédito total</legend>
+              <label class="input w-full">
+                $ <input type="text" placeholder="Ingrese línea de crédito" formControlName="creditLine" mask="separator.2"
+                         thousandSeparator="," decimalMarker="." maxlength="14"/>
+              </label>
+              <form-text-helper [form]="cardForm" fieldName="creditLine"></form-text-helper>
+            </div>
+
+            <div class="flex flex-col col-span-2 mr-3">
+              <legend class="fieldset-legend">Día de corte de la tarjeta</legend>
+              <input type="number" class="input w-full" placeholder="Ingrese día de corte" min="1" max="31"
+                     formControlName="cutoffDay" />
+              <form-text-helper [form]="cardForm" fieldName="cutoffDay"></form-text-helper>
+            </div>
+
+            <div class="flex flex-col col-span-2 mr-3">
+              <legend class="fieldset-legend">Días para pago de tarjeta (Periodo de gracia)</legend>
+              <input type="number" class="input w-full" placeholder="Ingrese días para pago de tarjeta" min="1" max="31"
+                     formControlName="daysToPay" />
+              <form-text-helper [form]="cardForm" fieldName="daysToPay"></form-text-helper>
+            </div>
+          }
+        </fieldset>
+
+        <div class="mt-5 ml-5">
+          <h1 class="text-xl font-bold ">Seleccione color de tarjeta</h1>
+          <div class="join join-horizontal mt-5">
+            @for (color of colors; track $index) {
+              <input type="radio" name="color" class="btn theme-controller join-item " formControlName="color" [aria-label]="color" [value]="color" />
+            }
+          </div>
+        </div>
+
+      </form>
+
+      <div class="grid grid-flow-col justify-items-end my-5">
+        <div>
+          <button class="btn btn-soft mr-5" (click)="goBack()">Regresar</button>
+          <button class="btn btn-secondary mr-5" (click)="onSubmit()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

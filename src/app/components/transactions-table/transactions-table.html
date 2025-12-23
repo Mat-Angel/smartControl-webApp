@@ -1,0 +1,87 @@
+<div class="flex justify-center my-5">
+  <div class="container overflow-x-auto rounded-box shadow-md border border-base-200 bg-white">
+    <div class="p-4 pb-2 text-xs opacity-90 tracking-wide">Movimientos periodo: </div>
+    <table class="table">
+      <tbody>
+        @for (transaction of transactionsList(); track $index) {
+        <tr class="cursor-pointer" onclick="movementDetail.showModal()" (click)="onSelectedMovement(transaction)">
+          <td>
+            <div class="flex items-center gap-3">
+              @if (transaction.transactionType === "income") {
+              <div class="text-green-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"><path d="m3 17l6-6l4 4l8-8" /><path d="M17 7h4v4" /></g></svg>
+              </div>
+              } @else {
+              <div class="text-red-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.9"><path d="m3 7l6 6l4-4l8 8" /><path d="M17 17h4v-4" /></g></svg>
+              </div>
+              }
+              <div>
+                <div class="font-bold">{{transaction.title}}</div>
+                <div class="text-sm opacity-50">{{transaction.description}}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="badge badge-soft badge-info">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12s0 5.657-1.172 6.828S17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172S2 15.771 2 12Z" /><path stroke-linecap="round" d="M10 16H6m8 0h-1.5M2 10h20" opacity="0.5" /></g></svg>
+              {{transaction.paymentInfo.title}}
+            </div>
+            <br />
+            <span class="badge badge-ghost badge-sm">{{transaction.category}}</span>
+          </td>
+          <td>
+            <span class="font-bold">{{transaction.amount | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
+            <br />
+            <span>{{transaction.operationDate}}</span>
+          </td>
+          <!-- <th>
+              <button class="btn btn-ghost btn-xs">details</button>
+            </th> -->
+        </tr>
+        } @empty {
+          <div class="flex flex-col justify-center items-center rounded py-5">
+            <p class="text-3xl font-semibold text-black">No hay Movimientos</p>
+            <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
+            <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
+              Movimiento
+            </button>
+          </div>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<dialog #movementDetail id="movementDetail" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-circle btn-ghost absolute left-1 top-5">✕</button>
+    </form>
+    <h3 class="text-lg font-bold ml-4">Detalle de movimiento</h3>
+
+    <div class="dropdown dropdown-end absolute right-2 top-4">
+      <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0-6a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" /></svg>
+      </div>
+      <div tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 shadow-md border border-base-200 p-2">
+        <ul>
+          <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost" [routerLink]="['/register_transaction/edit', selectedMovement()?.id]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" /></g></svg>
+            <span class="m-2">Editar</span>
+          </li>
+          <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost text-error" (click)="onDeleteMovement(selectedMovement()!.id ?? '')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" /></svg>
+            <span class="m-2">Eliminar</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <movement-detail-info [detailData]="selectedMovement()"/>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

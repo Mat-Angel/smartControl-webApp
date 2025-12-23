@@ -1,0 +1,175 @@
+<div class="min-h-[calc(100vh-4rem)] bg-blue-50 flex justify-center">
+  <div class="container rounded-box shadow-md border-2 border-base-200 bg-white mt-5">
+    <h1 class="text-3xl font-bold mt-5 ml-5">Registrar movimiento</h1>
+    <div class="divider"></div>
+    <h1 class="text-xl font-bold mt-5 ml-5">Datos generales</h1>
+
+    <form autocomplete="off" [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+      <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Nombre de comercio/establecimiento</legend>
+          <input type="text" class="input w-full" placeholder="Ingrese Nombre de comercio/establecimiento"
+            formControlName="title" />
+          <form-text-helper [form]="transactionForm" fieldName="title"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Descripción</legend>
+          <input type="text" class="input w-full" placeholder="Ingrese descripción" formControlName="description" />
+          <form-text-helper [form]="transactionForm" fieldName="description"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Monto</legend>
+          <label class="input w-full">
+            $
+            <input type="text" placeholder="Ingrese monto" formControlName="amount" mask="separator.2"
+              thousandSeparator="," decimalMarker="." maxlength="14" />
+          </label>
+          <form-text-helper [form]="transactionForm" fieldName="amount"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Tipo de transacción</legend>
+          <select class="select w-full" formControlName="transactionType">
+            <option disabled selected value="">Seleccione tipo de transacción</option>
+            @for (option of formUtils.transactionTypeOptions; track $index) {
+            <option [value]="option.value">{{option.label}}</option>
+            }
+          </select>
+          <form-text-helper [form]="transactionForm" fieldName="transactionType"></form-text-helper>
+
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Categoría</legend>
+          <input type="text" class="input w-full" placeholder="Ingrese categoría" formControlName="category" />
+          <form-text-helper [form]="transactionForm" fieldName="category"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Fecha de operación</legend>
+          <input type="date" min="1900-01-01" max="2099-12-31" class="input w-full" formControlName="operationDate" />
+          <form-text-helper [form]="transactionForm" fieldName="operationDate"></form-text-helper>
+        </div>
+      </fieldset>
+    </form>
+
+    <h1 class="text-xl font-bold mt-5 ml-5">Periodicidad</h1>
+
+    <form autocomplete="off" [formGroup]="periodicityForm" (ngSubmit)="onSubmit()">
+      <fieldset class="fieldset grid md:grid-cols-6 mx-5">
+        <div class="flex flex-row col-span-2 items-center">
+          <input type="checkbox" class="toggle" (change)="onChangePeriodicityToggle($event.target.checked)" />
+          <p class=" font-semibold ml-3">Pago recurrente/domiciliado</p>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Tipo plan de pago</legend>
+          <select #paymentPlan class="select w-full" formControlName="paymentPlanType">
+            <option disabled selected value="">Seleccione un tipo</option>
+            @for (option of formUtils.PaymentPlanOptions; track $index) {
+            <option [value]="option.value">{{option.label}}</option>
+            }
+          </select>
+        </div>
+      </fieldset>
+
+      @if (hasPeriodicity() && paymentPlan.value === "recurringPayment") {
+      <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Periodicidad</legend>
+          <select class="select w-full" formControlName="periodicity">
+            <option disabled selected value="">Seleccione un tipo</option>
+            @for (option of formUtils.periodicityOptions; track $index) {
+            <option [value]="option.value">Cada {{option.label}}</option>
+            }
+          </select>
+          <form-text-helper [form]="periodicityForm" fieldName="periodicity"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Fecha de cobro</legend>
+          <input type="date" class="input  w-full" formControlName="startDatePeriodicity" />
+          <form-text-helper [form]="periodicityForm" fieldName="startDatePeriodicity"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Día de cobro</legend>
+          <input type="number" class="input w-full" placeholder="Ingrese día de cobro" min="1" max="31"
+            formControlName="every" />
+          <form-text-helper [form]="periodicityForm" fieldName="every"></form-text-helper>
+        </div>
+      </fieldset>
+      }
+
+      @if (hasPeriodicity() && paymentPlan.value === "installment") {
+      <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Plazo</legend>
+          <select class="select w-full" formControlName="totalInstallment">
+            <option disabled selected value="">Seleccione un plazo</option>
+            @for (option of installments; track $index) {
+            <option [value]="option">{{option}} Meses</option>
+            }
+          </select>
+          <form-text-helper [form]="periodicityForm" fieldName="totalInstallment"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Número de pago</legend>
+          <input type="number" class="input w-full" placeholder="Ingrese número de pago" min="1" max="99"
+            formControlName="currentInstallment" />
+          <form-text-helper [form]="periodicityForm" fieldName="currentInstallment"></form-text-helper>
+        </div>
+      </fieldset>
+      }
+    </form>
+
+    <h1 class="text-xl font-bold mt-5 ml-5">Información de pago</h1>
+
+    <form autocomplete="off" [formGroup]="paymentInfoForm" (ngSubmit)="onSubmit()">
+      <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Tipo de tarjeta</legend>
+          <select class="select w-full" #paymentType formControlName="paymentType" (click)="loadPaymentData()" (focus)="loadPaymentData()">
+            <option disabled selected value="">Seleccione tipo</option>
+            @for (item of availablePaymentTypes(); track $index) {
+            <option [value]="item" class="capitalize">{{formUtils.paymentTypeTranslations[item]}}</option>
+            }
+          </select>
+          <form-text-helper [form]="paymentInfoForm" fieldName="paymentType"></form-text-helper>
+          @if (formUtils.isValidField(paymentInfoForm, "paymentType") && availablePaymentTypes().length === 0) {
+            <span class="font-semibold">
+            No hay tarjetas registradas ¿Desea <button [routerLink]="['/my_cards/register_card']" class="btn btn-link px-0">Registrar tarjeta</button>?
+            </span>
+          }
+
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Nombre de transacción Concepto o (banco de) la cuenta/tarjeta</legend>
+          <select class="select w-full" #bankName formControlName="bankName" >
+            <option disabled selected value="">Seleccione banco</option>
+
+            @for (item of availableBanks(); track $index) {
+              <option [value]="item" class="capitalize">{{item}}</option>
+            }
+          </select>
+          <form-text-helper [form]="paymentInfoForm" fieldName="bankName"></form-text-helper>
+        </div>
+        <div class="flex flex-col col-span-2 mr-3">
+          <legend class="fieldset-legend">Nombre de transacción Concepto o (la cuenta)/tarjeta</legend>
+          <select class="select w-full" formControlName="paymentTitle">
+            <option disabled selected value="">Seleccione cuenta/tarjeta</option>
+
+            @for (item of availableCards(); track $index) {
+              <option [value]="item" class="capitalize">{{item}}</option>
+            }
+          </select>
+          <form-text-helper [form]="paymentInfoForm" fieldName="paymentTitle"></form-text-helper>
+        </div>
+
+      </fieldset>
+    </form>
+
+    <div class="grid grid-flow-col justify-items-end my-5">
+      <div>
+        <button class="btn btn-soft mr-5" [routerLink]="['/movements']">Regresar</button>
+        <button class="btn btn-secondary mr-5"
+          [disabled]="!transactionForm.valid || !periodicityForm.valid || !paymentInfoForm.valid"
+          (click)="onSubmit()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

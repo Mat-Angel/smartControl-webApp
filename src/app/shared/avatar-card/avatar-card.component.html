@@ -1,0 +1,11 @@
+<div class="w-80 m-2">
+  <div class="card bg-base-200 w-auto max-w-96 shadow-md">
+    <div class="card-body">
+      <h2 class="card-title">{{name()}}</h2>
+      <p>{{description()}}</p>
+    </div>
+    <figure class="bg-base-100 h-60">
+      <img class="my-3  min-w-50" [src]="`${baseUrl}avatars/${avatarId()}.png`" alt="Avatar" />
+    </figure>
+  </div>
+</div>

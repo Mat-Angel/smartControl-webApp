@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "daisyui"{
+  themes: emerald --default;
+}
+
+@theme {
+  --animate-fadeIn: fadeIn 0.15s ease-in-out;  /* Definiendo la animación custom */
+}
+/* Configurando la animación custom: */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

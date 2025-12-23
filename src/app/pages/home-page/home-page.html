@@ -1,0 +1,45 @@
+<div class="hero min-h-screen" [style]="`background-image: url(${baseUrl}smart-control/smartControl_background.png);`">
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-neutral-content text-center bg-black/70 rounded-2xl w-auto mx-2">
+    <div class="max-w-md flex flex-col items-center">
+      <a class="m-5 w-full md:w-50">
+        <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" title="SmartControl logo"
+          draggable="false">
+      </a>
+      <p class="mb-5">
+        Bienvenido a la app de control de finanzas personales, donde podrás registrar y consultar los movimientos de tus
+        cuentas y tarjetas.
+        Tomarás el control de tus compras, el pago de tus servicios, tarjetas y llevar un balance de tus ingresos.
+      </p>
+      <button class="btn btn-active" onclick="my_modal_1.showModal()">¡Comenzar!</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Open the modal using ID.showModal() method -->
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold flex flex-row items-center">
+      <svg class="text-warning" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M2.725 21q-.275 0-.5-.137t-.35-.363t-.137-.488t.137-.512l9.25-16q.15-.25.388-.375T12 3t.488.125t.387.375l9.25 16q.15.25.138.513t-.138.487t-.35.363t-.5.137zM12 18q.425 0 .713-.288T13 17t-.288-.712T12 16t-.712.288T11 17t.288.713T12 18m0-3q.425 0 .713-.288T13 14v-3q0-.425-.288-.712T12 10t-.712.288T11 11v3q0 .425.288.713T12 15" />
+      </svg>
+      <span class="ml-1">Aviso de responsabilidad</span>
+    </h3>
+    <div>
+      <p>Este sitio web ha sido creado con fines demostrativos y/o de prueba.</p>
+      <p>No recopila ni almacena datos personales reales.</p>
+      <p>Te recomendamos no ingresar información confidencial, como contraseñas, números de cuenta o datos personales.
+      </p>
+      <p>El autor no se hace responsable del uso indebido de la información introducida por los usuarios.</p>
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn ml-2">Cancelar</button>
+        <button class="btn ml-2" [routerLink]="['/movements']">Continuar</button>
+      </form>
+    </div>
+  </div>
+</dialog>
