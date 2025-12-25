@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/protfolio-MAT-ANGEL-2025/browser",
+    "public": "dist/smartControl-webapp/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
