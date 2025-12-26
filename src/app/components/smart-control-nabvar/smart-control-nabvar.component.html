@@ -1,29 +1,58 @@
 @if(showNavbar()){
-<div class="navbar flex justify-center bg-blue-950 shadow-sm">
-  <div class="container flex justify-between">
+<div class="navbar flex justify-center bg-linear-to-b from-blue-900 to-blue-950 shadow-sm">
+  <div class="container flex justify-between items-center">
     <a class="hidden sm:block" href="https://mat-angel.com">
       <img [src]="`${baseUrl}neon_mat_2025.png`" width="125" title="MAT Angel" draggable="false">
     </a>
-    <a class="block sm:hidden mx-2" href="https://mat-angel.com">
-      <img class="h-12" [src]="`${baseUrl}Mat_neon-black_icon.webp`" title="MAT Angel" draggable="false">
-    </a>
+
+    <label for="my-drawer-1" class="block sm:hidden text-white btn btn-ghost btn-xs">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z" />
+      </svg>
+    </label>
 
     <a [routerLink]="['/movements']">
-      <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" width="125" title="SmartControl logo" draggable="false">
+      <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" width="125" title="SmartControl logo"
+        draggable="false">
     </a>
     <profile-info />
   </div>
 </div>
 
-<div class="navbar flex justify-center bg-blue-900 text-white min-h-7 h-7 ">
-  <div class="container flex justify-start overflow-x-auto">
-    @for (route of routes; track $index) {
-    <div
-      class="md:mr-10 btn btn-ghost min-h-7 h-7 font-semibold hover:bg-base-100/10 hover:text-cyan-500 hover:border-blue-900"
-      [routerLink]="['/', route.path]" routerLinkActive="text-cyan-500">
-      {{route.title}}
+<section class="hidden sm:block">
+  <div class="navbar justify-center bg-blue-900 text-white min-h-7 h-7">
+    <div class="container flex justify-start overflow-x-auto">
+      @for (route of routes; track $index) {
+      <div
+        class="md:mr-10 btn btn-ghost min-h-7 h-7 font-semibold hover:bg-base-100/10 hover:text-cyan-500 hover:border-blue-900"
+        [routerLink]="['/', route.path]" routerLinkActive="text-cyan-500">
+        {{route.title}}
+      </div>
+      }
     </div>
-    }
+  </div>
+</section>
+
+<div class="drawer">
+  <input #sideBar id="my-drawer-1" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-side">
+    <label for="my-drawer-1" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="menu bg-base-100 min-h-full w-80 p-4 rounded-r-xl">
+      <div class="flex flex-row rounded-lg bg-linear-to-br from-gray-100 via-gray-300 to-gray-500 shadow items-center p-2 pl-3">
+        <img class="h-12" [src]="`${baseUrl}Mat_neon-black_icon.webp`" title="MAT Angel" draggable="false">
+        <span class="text-xl font-bold ml-4">mat-angel.com</span>
+      </div>
+      <span class="text-2xl font-bold my-3">Menú</span>
+      <ul>
+        @for (route of routes; track $index) {
+          <li><a class="text-lg font-semibold" routerLinkActive="bg-base-300" [routerLink]="['/', route.path]" (click)="sideBar.checked = false">
+            {{route.title}}
+          </a></li>
+        }
+      </ul>
+    </div>
   </div>
 </div>
+
 }
