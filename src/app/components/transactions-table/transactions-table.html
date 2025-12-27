@@ -1,6 +1,6 @@
 <div class="flex justify-center my-5">
-  <div class="container overflow-x-auto rounded-box shadow-md border border-base-200 bg-white">
-    <div class="p-4 pb-2 text-xs opacity-90 tracking-wide">Movimientos periodo: </div>
+  <div class="container overflow-auto rounded-box shadow-md border border-base-200 bg-white max-h-190">  <!--TODO: Eliminar altura (h) cuando esté la paginación -->
+    <div class="p-4 pb-2 text-xs opacity-90 tracking-wide">Movimientos del mes {{monthOffset() | i18nPlural:monthMap()}}: </div>
     <table class="table">
       <tbody>
         @for (transaction of transactionsList(); track $index) {
@@ -41,11 +41,15 @@
         </tr>
         } @empty {
           <div class="flex flex-col justify-center items-center rounded py-5">
-            <p class="text-3xl font-semibold text-black">No hay Movimientos</p>
-            <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
-            <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
-              Movimiento
-            </button>
+            @if(monthOffset() === 0){
+              <p class="text-3xl font-semibold text-black">No hay movimientos</p>
+              <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
+              <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
+                Movimiento
+              </button>
+            } @else{
+              <p class="text-3xl font-semibold text-black">No hay movimientos para este periodo</p>
+            }
           </div>
         }
       </tbody>

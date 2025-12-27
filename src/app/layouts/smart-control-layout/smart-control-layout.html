@@ -1,79 +1,85 @@
-<div class="pt-5">
+<div class="py-5">
   <div class="flex justify-center">
-  <div class="stats shadow-md border border-base-200 bg-white">
-    <div class="grid grid-cols-2">
-      <div class="flex flex-row justify-center col-span-2 items-center">
-        <div class="mr-5 text-black">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-            <g fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z" /><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M16.5 14a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" /><path d="M18 7V5.603a2 2 0 0 0-2.515-1.932l-11 2.933A2 2 0 0 0 3 8.537V9" /></g>
-          </svg>
+    <div class="stats shadow-md border border-base-200 bg-white">
+      <div class="grid grid-cols-2">
+        <div class="flex flex-row justify-center col-span-2 items-center">
+          <div class="mr-5 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z" /><path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M16.5 14a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" /><path d="M18 7V5.603a2 2 0 0 0-2.515-1.932l-11 2.933A2 2 0 0 0 3 8.537V9" /></g>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-title font-bold">Saldo disponible</div>
+            <div class="stat-value text-black">{{balanceInfo().totalAvailable | currency:'MXN' : "symbol-narrow" :
+              "1.2-2"}}</div>
+            <div class="stat-desc">21% more than last month</div>
+          </div>
         </div>
-        <div>
-          <div class="stat-title font-bold">Saldo disponible</div>
-          <div class="stat-value text-black">{{balanceInfo().totalAvailable | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
-          <div class="stat-desc">21% more than last month</div>
-        </div>
-      </div>
 
-      <div class="flex flex-row justify-center items-end my-5 mx-5">
-        <div class="text-green-400 mr-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M15 15v2h3v3h2v-3h3v-2h-3v-3h-2v3m-3.03-3.39C14.85 10.28 13.59 8.97 12 9c-1.7.03-3 1.3-3 3s1.3 2.94 3 3c.38 0 .77-.08 1.14-.23c.27-1.1.72-2.14 1.83-3.16M13 16H7a2 2 0 0 0-2-2v-4c1.11 0 2-.89 2-2h10a2 2 0 0 0 2 2v.06c.67 0 1.34.12 2 .34V6H3v12h10.32a6.4 6.4 0 0 1-.32-2" />
-          </svg>
+        <div class="flex flex-row justify-center items-end my-5 mx-5">
+          <div class="text-green-400 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M15 15v2h3v3h2v-3h3v-2h-3v-3h-2v3m-3.03-3.39C14.85 10.28 13.59 8.97 12 9c-1.7.03-3 1.3-3 3s1.3 2.94 3 3c.38 0 .77-.08 1.14-.23c.27-1.1.72-2.14 1.83-3.16M13 16H7a2 2 0 0 0-2-2v-4c1.11 0 2-.89 2-2h10a2 2 0 0 0 2 2v.06c.67 0 1.34.12 2 .34V6H3v12h10.32a6.4 6.4 0 0 1-.32-2" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-title font-bold">Ingresos</div>
+            <div class="stat-value text-2xl">{{balanceInfo().totalIncome | currency:'MXN' : "symbol-narrow" : "1.2-2"}}
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="stat-title font-bold">Ingresos</div>
-          <div class="stat-value text-2xl">{{balanceInfo().totalIncome | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
-        </div>
-      </div>
 
-      <div class="flex flex-row justify-center items-end my-5 mx-5">
-        <div class="text-red-400 mr-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M15 15v2h8v-2m-8.03-3.39C14.85 10.28 13.59 8.97 12 9c-1.7.03-3 1.3-3 3s1.3 2.94 3 3c.38 0 .77-.08 1.14-.23c.27-1.1.72-2.14 1.83-3.16M13 16H7a2 2 0 0 0-2-2v-4c1.11 0 2-.89 2-2h10a2 2 0 0 0 2 2v.06c.67 0 1.34.12 2 .34V6H3v12h10.32a6.4 6.4 0 0 1-.32-2" />
-          </svg>
-        </div>
-        <div>
-          <div class="stat-title font-bold">Gastos</div>
-          <div class="stat-value text-2xl">{{balanceInfo().totalOutgoing | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
+        <div class="flex flex-row justify-center items-end my-5 mx-5">
+          <div class="text-red-400 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M15 15v2h8v-2m-8.03-3.39C14.85 10.28 13.59 8.97 12 9c-1.7.03-3 1.3-3 3s1.3 2.94 3 3c.38 0 .77-.08 1.14-.23c.27-1.1.72-2.14 1.83-3.16M13 16H7a2 2 0 0 0-2-2v-4c1.11 0 2-.89 2-2h10a2 2 0 0 0 2 2v.06c.67 0 1.34.12 2 .34V6H3v12h10.32a6.4 6.4 0 0 1-.32-2" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-title font-bold">Gastos</div>
+            <div class="stat-value text-2xl">{{balanceInfo().totalOutgoing | currency:'MXN' : "symbol-narrow" :
+              "1.2-2"}}</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="flex justify-center mt-5 mx-1">
-  <div class="join grid grid-cols-3  text-white">
-    <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950"> Periodo actual</button>
-    <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950"> Periodo anterior</button>
-    <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950"> Periodo previo al anterior</button>
+  <div class="flex justify-center mt-5 mx-1">
+    <div class="join grid grid-cols-3  text-white">
+      <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950" (click)="onLoadMovementByPeriod(0)">
+        Mes actual</button>
+      <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950" (click)="onLoadMovementByPeriod(1)">
+        Mes anterior</button>
+      <button class="join-item btn btn-outline hover:text-cyan-500 bg-blue-950" (click)="onLoadMovementByPeriod(2)">
+        Mes previo al anterior</button>
+    </div>
   </div>
-</div>
 
-  <transactions-table
-    [transactionsList]="transactionsResource.value() ?? []"
-    [errorMessage]="transactionsResource.error()"
-    [isEmpty]="!transactionsResource.value()"
-    [isLoading]="transactionsResource.isLoading()"
-    (deleteMovement)="deleteMovement($event)"
-  />
+  <transactions-table [transactionsList]="transactionsByMonth()" [errorMessage]="transactionsResource.error()"
+    [isEmpty]="!transactionsResource.value()" [isLoading]="transactionsResource.isLoading()" [monthOffset]="monthOffset()"
+    (deleteMovement)="deleteMovement($event)" />
 
   <div class="fab">
     <div tabindex="0" role="button" class="btn btn-lg btn-circle bg-blue-950 text-white">
-      <svg aria-label="New" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6" >
+      <svg aria-label="New" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
     </div>
 
     <div><span class="bg-black/70 rounded-md text-white px-2">Registrar movimiento</span>
       <button class="btn btn-lg btn-circle" [routerLink]="['/register_transaction']">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 2v20l2-1l2 1l2-1l2 1l2-1l2 1l2-1l2 1V2l-2 1l-2-1l-2 1l-2-1l-2 1l-2-1l-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8m4 1.5v-11"/></g></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 2v20l2-1l2 1l2-1l2 1l2-1l2 1l2-1l2 1V2l-2 1l-2-1l-2 1l-2-1l-2 1l-2-1l-2 1Z" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8m4 1.5v-11" /></g>
+        </svg>
       </button>
     </div>
 
     <div><span class="bg-black/70 rounded-md text-white px-2">Registrar cuenta/tarjeta</span>
       <button class="btn btn-lg btn-circle" [routerLink]="['/my_cards/register_card']">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 12h16V8H4zm15 10v-3h-3v-2h3v-3h2v3h3v2h-3v3zM4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v6h-3q-2.075 0-3.537 1.463T14 17v3z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="currentColor"d="M4 12h16V8H4zm15 10v-3h-3v-2h3v-3h2v3h3v2h-3v3zM4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v6h-3q-2.075 0-3.537 1.463T14 17v3z" />
+        </svg>
       </button>
     </div>
     <!-- <div><span class="bg-black/70 rounded-md text-white px-2">Label D</span> <button class="btn btn-lg btn-circle">C</button></div> -->

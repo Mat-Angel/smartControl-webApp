@@ -1,9 +1,9 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TransactionsDataService } from '../../services/transactions-data.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TransactionsTable } from '../../components/transactions-table/transactions-table';
 import { of } from 'rxjs';
-import { Balance } from '../../interfaces/transactions.interface';
+import { Balance, Transactions } from '../../interfaces/transactions.interface';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../auth/services/auth.service';
@@ -52,7 +52,46 @@ export default class SmartControlLayout {
     return { totalAvailable, totalIncome, totalOutgoing };
   });
 
-  deleteMovement(id:string){
+  monthOffset = signal(0);   // 0 = mes actual, 1 = mes anterior, 2 = hace 2 meses...
+
+  selectedMonth = computed(() => {
+    const hoy = new Date();
+    hoy.setMonth(hoy.getMonth() - this.monthOffset());
+
+    return {
+      month: hoy.getMonth(),      // 0–11
+      year: hoy.getFullYear()
+    };
+  });
+
+
+  private isSameMonth(fechaStr: string, monthIndex: number, year: number): boolean {
+    // fechaStr = "2025-11-02"
+    const [y, m] = fechaStr.split('-').map(Number); // y = 2025, m = 11
+
+    // monthIndex es 0–11, pero el string trae mes 1–12, por eso m - 1
+    return y === year && (m - 1) === monthIndex;
+  }
+
+  transactionsByMonth = computed<Transactions[]>(() => {
+    const transactions = this.transactionsResource.value() ?? []
+
+    const hoy = new Date();
+    hoy.setMonth(hoy.getMonth() - this.monthOffset());
+    const mesActual = hoy.getMonth();        // 0-11
+    const anioActual = hoy.getFullYear();    // ej: 2025
+
+    return transactions.filter(item =>
+      this.isSameMonth(item.operationDate, mesActual, anioActual))
+      .sort((a, b) => b.operationDate.localeCompare(a.operationDate));
+  })
+
+  onLoadMovementByPeriod(period: number) {
+    this.monthOffset.set(period);
+  }
+
+
+  deleteMovement(id: string) {
     console.log('ID para eliminar: ', id);
     return this.transactionsDataService.deleteTransaction(id).subscribe({
       next: (response) => {
@@ -65,9 +104,6 @@ export default class SmartControlLayout {
         //console.error('Error:', err);
       }
     });
-
-
-
-
   }
+
 }
