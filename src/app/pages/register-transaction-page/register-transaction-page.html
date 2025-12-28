@@ -138,7 +138,7 @@
 
         </div>
         <div class="flex flex-col col-span-2 mr-3">
-          <legend class="fieldset-legend">Nombre de transacción Concepto o (banco de) la cuenta/tarjeta</legend>
+          <legend class="fieldset-legend">Banco</legend>
           <select class="select w-full" #bankName formControlName="bankName" >
             <option disabled selected value="">Seleccione banco</option>
 
@@ -149,7 +149,7 @@
           <form-text-helper [form]="paymentInfoForm" fieldName="bankName"></form-text-helper>
         </div>
         <div class="flex flex-col col-span-2 mr-3">
-          <legend class="fieldset-legend">Nombre de transacción Concepto o (la cuenta)/tarjeta</legend>
+          <legend class="fieldset-legend">Nombre de la cuenta/tarjeta</legend>
           <select class="select w-full" formControlName="paymentTitle">
             <option disabled selected value="">Seleccione cuenta/tarjeta</option>
 
