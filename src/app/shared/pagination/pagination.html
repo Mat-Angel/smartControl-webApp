@@ -3,7 +3,7 @@
 
 @if (pages > 0) {
   <div class="divider m-0 h-0.5"></div>
-  <div class="container flex flex-row items-center justify-between bg-base-100 rounded-lg shadow px-4 h-10 text-sm font-semibold opacity-90">
+  <div class="container flex flex-col md:flex-row items-center justify-between bg-base-100 rounded-lg shadow px-4 min-h-10 text-sm font-semibold opacity-90">
     @if (pages === 1) {
       <div>Mostrando {{items}} movimientos</div>
     } @else {
@@ -11,7 +11,7 @@
       }
 
     @if (pages > 1) {
-      <div class="join">
+      <div class="join ">
         <button class="join-item btn btn-ghost" (click)="prevPage()" [ngClass]="{'btn-disabled': activePage() <= 1}">«</button>
         @for (page of getPagesList(); track page) {
           <button class="join-item btn btn-ghost" [ngClass]="{'bg-cyan-500 btn-disabled text-black': page === activePage()}" (click)="selectPage(page)">
