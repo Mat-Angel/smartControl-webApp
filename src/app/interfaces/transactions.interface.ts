@@ -11,8 +11,8 @@ export interface Transactions {
 }
 
 export enum TransactionType {
-  income ="income",
-  outgoing ="outgoing"
+  outgoing ="outgoing",
+  income ="income"
 }
 
 export interface Payment {

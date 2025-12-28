@@ -111,8 +111,8 @@ export class FormUtils {
 
 
   static transactionTypeTranslations: Record<TransactionType, string> = {
-    [TransactionType.income]: 'ingreso',
-    [TransactionType.outgoing]: 'gasto'
+    [TransactionType.outgoing]: 'gasto',
+    [TransactionType.income]: 'ingreso'
   };
 
   static transactionTypeOptions = Object.values(TransactionType).map((value) => ({
