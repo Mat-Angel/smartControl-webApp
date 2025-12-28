@@ -1,6 +1,8 @@
 <div class="flex justify-center my-5">
   <div class="container overflow-auto rounded-box shadow-md border border-base-200 bg-white max-h-190">  <!--TODO: Eliminar altura (h) cuando esté la paginación -->
     <div class="p-4 pb-2 text-xs opacity-90 tracking-wide">Movimientos del mes {{monthOffset() | i18nPlural:monthMap()}}: </div>
+    <div class="divider m-0"></div>
+
     <table class="table">
       <tbody>
         @for (transaction of transactionsList(); track $index) {
