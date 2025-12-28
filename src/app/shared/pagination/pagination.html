@@ -1,20 +1,25 @@
-<div class="divider m-0 h-0.5"></div>
-<div class="container flex flex-row items-center justify-between bg-base-100 rounded-lg shadow px-5">
-  @if (totalPages() <= 1) {
-    <div>Mostrando {{totalItems()}} movimientos</div>
-  } @else {
-      <div>Mostrando {{fromMovement()}} a {{toMovement()}} de {{totalItems()}} movimientos</div>
-    }
+@let pages = totalPages();
+@let items = totalItems();
 
-  @if (totalPages() > 1) {
-    <div class="join">
-      <button class="join-item btn btn-ghost" (click)="prevPage()" [ngClass]="{'btn-disabled': activePage() <= 1}">«</button>
-      @for (page of getPagesList(); track page) {
-        <button class="join-item btn btn-ghost" [ngClass]="{'bg-cyan-500 btn-disabled text-black': page === activePage()}" (click)="selectPage(page)">
-          {{page}}
-        </button>
+@if (pages > 0) {
+  <div class="divider m-0 h-0.5"></div>
+  <div class="container flex flex-row items-center justify-between bg-base-100 rounded-lg shadow px-5">
+    @if (pages === 1) {
+      <div>Mostrando {{items}} movimientos</div>
+    } @else {
+        <div>Mostrando {{fromMovement()}} a {{toMovement()}} de {{items}} movimientos</div>
       }
-      <button class="join-item btn btn-ghost" (click)="nextPage()" [ngClass]="{'btn-disabled': activePage() >= totalPages()}">»</button>
-    </div>
-  }
-</div>
+
+    @if (pages > 1) {
+      <div class="join">
+        <button class="join-item btn btn-ghost" (click)="prevPage()" [ngClass]="{'btn-disabled': activePage() <= 1}">«</button>
+        @for (page of getPagesList(); track page) {
+          <button class="join-item btn btn-ghost" [ngClass]="{'bg-cyan-500 btn-disabled text-black': page === activePage()}" (click)="selectPage(page)">
+            {{page}}
+          </button>
+        }
+        <button class="join-item btn btn-ghost" (click)="nextPage()" [ngClass]="{'btn-disabled': activePage() >= pages}">»</button>
+      </div>
+    }
+  </div>
+}
