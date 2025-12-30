@@ -1,17 +1,18 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { TransactionsDataService } from '../../services/transactions-data.service';
-import { PeriodType, Transactions, TransactionType, Installment, PaymentType } from '../../interfaces/transactions.interface';
+import { PeriodType, Transactions, PaymentType } from '../../interfaces/transactions.interface';
 import { NgxMaskDirective } from 'ngx-mask';
 import { FormTextHelperComponent } from "@shared/form-text-helper/form-text-helper.component";
 import { AlertService } from '@shared/alert-message/alert.service';
 import { Utils } from '../../utils/utils';
 import { FormUtils } from '../../utils/form-utils';
 import { AuthService } from '../../auth/services/auth.service';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -19,17 +20,18 @@ import { LoadingScreenService } from '@shared/loading-screen/loading-screen.serv
   imports: [ReactiveFormsModule, RouterLink, NgxMaskDirective, FormTextHelperComponent],
   templateUrl: './register-transaction-page.html',
 })
-export default class RegisterTransaction {
+export default class RegisterTransaction implements AfterViewInit {
   private fb = inject(FormBuilder);
   private transactionsDataService = inject(TransactionsDataService);
   private alertService = inject(AlertService);
   private loadingScreenService = inject(LoadingScreenService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
   utils = Utils;
   formUtils = FormUtils
 
-  hasPeriodicity = signal(false);
   paymentPlanSelected = signal<string | null>(null);
 
   installments = [3, 6, 12, 18, 24, 36, 48, 60] as const;
@@ -41,6 +43,8 @@ export default class RegisterTransaction {
   availableBanks = signal<string[]>([]);
   availableCards = signal<string[]>([]);
 
+  queryId = toSignal(this.activatedRoute.params.pipe(map(params => params['id'])));
+  movementData = signal<Transactions | null>(null);
 
   transactionForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.pattern(FormUtils.alphanumericAndSpacesPattern), Validators.maxLength(20)]],
@@ -52,6 +56,8 @@ export default class RegisterTransaction {
   });
 
   periodicityForm: FormGroup = this.fb.group({
+    hasPeriodicity:[false],
+    isActive:[null],
     paymentPlanType: [{ value: '', disabled: true }],
     periodicity: [''],
     startDatePeriodicity: [this.utils.currentDate],
@@ -67,8 +73,13 @@ export default class RegisterTransaction {
   });
 
 
+  ngAfterViewInit(): void {
+    if (this.queryId()) {
+      this.loadTransactionById(this.queryId());
+    }
+  }
+
   onChangePeriodicityToggle(value: boolean) {
-    this.hasPeriodicity.set(value);
     this.periodicityForm.get('paymentPlanType')?.enable();
 
     if (!value) {
@@ -85,7 +96,6 @@ export default class RegisterTransaction {
       paymentSubscription.unsubscribe();
       bankSubscription.unsubscribe();
     })
-
   })
 
   onPaymentChanged() {
@@ -116,13 +126,55 @@ export default class RegisterTransaction {
       .subscribe((value) => {
         if (value) {
           this.paymentInfoForm.get('paymentTitle')?.enable();
-          const filteredBanks  =  [...new Set(this.filteredCardsData().filter(m => m.accInfo.bankName.includes(value)))]
+          const filteredBanks = [...new Set(this.filteredCardsData().filter(m => m.accInfo.bankName.includes(value)))];
           this.availableCards.set([...new Set(filteredBanks.flatMap(m => m.accInfo.productName))]);
         }
       });
   }
 
+  loadTransactionById(movementId: string) {
+    this.loadingScreenService.setLoadingState(true);
+    this.transactionsDataService.getTransactionById(movementId)
+      .subscribe({
+        next: (resp) => {
+          this.loadingScreenService.setLoadingState(false);
+          if (!resp) {
+            this.alertService.showAlert('Hubo un problema al cargar la información. Intente de nuevo', 'error');
+            return;
+          }
+          this.movementData.set(resp);
+          this.setFormsData(resp);
 
+
+        },
+        error: () => {
+          this.loadingScreenService.setLoadingState(false);
+          this.alertService.showAlert('Hubo un problema al cargar la información. Intente de nuevo', 'error');
+        }
+      });
+  }
+
+  setFormsData(transactionData:Transactions){
+    this.transactionForm.get('title')!.setValue(transactionData?.title);
+    this.transactionForm.get('description')!.setValue(transactionData?.description);
+    this.transactionForm.get('amount')!.setValue(transactionData?.amount);
+    this.transactionForm.get('transactionType')!.setValue(transactionData?.transactionType);
+    this.transactionForm.get('category')!.setValue(transactionData?.category);
+    this.transactionForm.get('operationDate')!.setValue(transactionData?.operationDate);
+
+    this.periodicityForm.get('hasPeriodicity')!.setValue(transactionData?.periodicTransaction?.hasPeriodicity);
+    this.onChangePeriodicityToggle(this.periodicityForm.get('hasPeriodicity')!.value);
+    this.periodicityForm.get('paymentPlanType')!.setValue(transactionData?.periodicTransaction?.paymentPlanType ?? '');
+    this.periodicityForm.get('isActive')!.setValue(transactionData?.periodicTransaction?.isActive);
+    this.periodicityForm.get('periodicity')!.setValue(transactionData?.periodicTransaction?.periodicity);
+    this.periodicityForm.get('startDatePeriodicity')!.setValue(transactionData?.periodicTransaction?.startDatePeriodicity);
+    this.periodicityForm.get('every')!.setValue(transactionData?.periodicTransaction?.every);
+    this.periodicityForm.get('totalInstallment')!.setValue(transactionData?.periodicTransaction?.installment.total);
+    this.periodicityForm.get('currentInstallment')!.setValue(transactionData?.periodicTransaction?.installment.current);
+    // this.paymentInfoForm.get('paymentType')!.setValue(transactionData?.paymentInfo.type);
+    // this.paymentInfoForm.get('bankName')!.setValue(transactionData?.paymentInfo.bankName);
+    // this.paymentInfoForm.get('paymentTitle')!.setValue(transactionData?.paymentInfo.title);
+  }
 
   loadPaymentData() {
     if (this.availablePaymentTypes().length > 0) return;
@@ -159,14 +211,17 @@ export default class RegisterTransaction {
 
     const data: Transactions = {
       //id: UUIDv4(),
-      title: transactionData.title,
-      description: transactionData.description,
-      amount: transactionData.amount,
-      transactionType: transactionData.transactionType,
-      category: transactionData.category,
-      operationDate: transactionData.operationDate ? transactionData.operationDate : this.utils.currentDate,
+      title: transactionData?.title,
+      description: transactionData?.description,
+      amount: transactionData?.amount,
+      transactionType: transactionData?.transactionType,
+      category: transactionData?.category,
+      operationDate: transactionData?.operationDate ? transactionData?.operationDate : this.utils.currentDate,
+
       periodicTransaction: {
-        isActive: true,
+        hasPeriodicity: periodicityData.hasPeriodicity,
+        paymentPlanType: periodicityData.paymentPlanType,
+        isActive: periodicityData.isActive,
         periodicity: periodicityData.periodicity,
         periodType: PeriodType.day,
         startDatePeriodicity: periodicityData.startDatePeriodicity,
@@ -181,6 +236,21 @@ export default class RegisterTransaction {
         title: paymentInfoData.paymentTitle,
         type: paymentInfoData.paymentType
       }
+    }
+
+    if(this.movementData()){
+          this.transactionsDataService.updateTransaction(data, this.queryId()).subscribe({
+      next: (response) => {
+        this.alertService.showAlert('Se ha actualizado la transacción correctamente', 'success');
+        //console.log('OK:', response);
+        this.router.navigate(['/movements']);
+      },
+      error: (err) => {
+        this.alertService.showAlert('Hubo un problema al actualizar la transacción. Intente de nuevo', 'error');
+        //console.error('Error:', err);
+      }
+    });
+    return;
     }
 
     this.transactionsDataService.saveTransaction(data).subscribe({

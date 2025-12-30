@@ -1,6 +1,6 @@
 <div class="flex justify-center">
   <div class="container rounded-box shadow-md border-2 border-base-200 bg-white mt-5">
-    <h1 class="text-3xl font-bold mt-5 ml-5">Registrar movimiento</h1>
+    <h1 class="text-3xl font-bold mt-5 ml-5">{{this.movementData() ? 'Editar' : 'Registrar'}} movimiento</h1>
     <div class="divider"></div>
     <h1 class="text-xl font-bold mt-5 ml-5">Datos generales</h1>
 
@@ -55,7 +55,7 @@
     <form autocomplete="off" [formGroup]="periodicityForm" (ngSubmit)="onSubmit()">
       <fieldset class="fieldset grid md:grid-cols-6 mx-5">
         <div class="flex flex-row col-span-2 items-center">
-          <input type="checkbox" class="toggle" (change)="onChangePeriodicityToggle($event.target.checked)" />
+          <input type="checkbox" class="toggle" (change)="onChangePeriodicityToggle($event.target.checked)" formControlName="hasPeriodicity" />
           <p class=" font-semibold ml-3">Pago recurrente/domiciliado</p>
         </div>
         <div class="flex flex-col col-span-2 mr-3">
@@ -69,7 +69,7 @@
         </div>
       </fieldset>
 
-      @if (hasPeriodicity() && paymentPlan.value === "recurringPayment") {
+      @if (periodicityForm.controls['hasPeriodicity'].value && paymentPlan.value === "recurringPayment") {
       <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Periodicidad</legend>
@@ -81,10 +81,25 @@
           </select>
           <form-text-helper [form]="periodicityForm" fieldName="periodicity"></form-text-helper>
         </div>
+        <!--
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Fecha de cobro</legend>
           <input type="date" class="input  w-full" formControlName="startDatePeriodicity" />
           <form-text-helper [form]="periodicityForm" fieldName="startDatePeriodicity"></form-text-helper>
+        </div>
+        -->
+        <div class="flex flex-col col-span-2">
+          <legend class="fieldset-legend">Estado del pago automático:</legend>
+          <div class="join grid grid-cols-3 ">
+            <button class="join-item btn btn-outline border-base-300" [class.btn-active]="periodicityForm.controls['isActive'].value"
+                    (click)="periodicityForm.controls['isActive'].setValue(true); $event.preventDefault()" >
+              Activo
+            </button>
+            <button class="join-item btn btn-outline border-base-300" [class.btn-active]="!periodicityForm.controls['isActive'].value"
+                    (click)="periodicityForm.controls['isActive'].setValue(false); $event.preventDefault()">
+              Inactivo
+            </button>
+          </div>
         </div>
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Día de cobro</legend>
@@ -95,7 +110,7 @@
       </fieldset>
       }
 
-      @if (hasPeriodicity() && paymentPlan.value === "installment") {
+      @if (periodicityForm.controls['hasPeriodicity'].value && paymentPlan.value === "installment") {
       <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Plazo</legend>
@@ -130,12 +145,6 @@
             }
           </select>
           <form-text-helper [form]="paymentInfoForm" fieldName="paymentType"></form-text-helper>
-          @if (formUtils.isValidField(paymentInfoForm, "paymentType") && availablePaymentTypes().length === 0) {
-            <span class="font-semibold">
-            No hay tarjetas registradas ¿Desea <button [routerLink]="['/my_cards/register_card']" class="btn btn-link px-0">Registrar tarjeta</button>?
-            </span>
-          }
-
         </div>
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Banco</legend>
@@ -159,16 +168,21 @@
           </select>
           <form-text-helper [form]="paymentInfoForm" fieldName="paymentTitle"></form-text-helper>
         </div>
-
       </fieldset>
+      @if (formUtils.isValidField(paymentInfoForm, "paymentType") && availablePaymentTypes().length === 0) {
+        <span class="font-semibold mx-5 text-sm">
+          No hay tarjetas registradas ¿Desea <a [routerLink]="['/my_cards/register_card']" class="link text-success px-0">Registrar tarjeta</a>?
+        </span>
+      }
     </form>
 
     <div class="grid grid-flow-col justify-items-end my-5">
       <div>
         <button class="btn btn-soft mr-5" [routerLink]="['/movements']">Regresar</button>
-        <button class="btn btn-secondary mr-5"
-          [disabled]="!transactionForm.valid || !periodicityForm.valid || !paymentInfoForm.valid"
-          (click)="onSubmit()">Guardar</button>
+        <button class="btn btn-secondary mr-5" [disabled]="!transactionForm.valid || !periodicityForm.valid || !paymentInfoForm.valid"
+          (click)="onSubmit()">
+          {{this.movementData() ? 'Actualizar' : 'Guardar'}}
+        </button>
       </div>
     </div>
   </div>

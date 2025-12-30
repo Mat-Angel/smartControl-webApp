@@ -25,14 +25,14 @@ export const routes: Routes = [
     title: 'Registrar movimiento',
     loadComponent: () => import('./pages/register-transaction-page/register-transaction-page'),
     data: { mode: 'require-auth' },
-    canMatch: [IsAuthenticatedGuard],
-        children: [
-      {
-        path: 'edit/:id',
-        title: 'Detalle de movimiento',
-        loadComponent: () => import('./pages/register-transaction-page/register-transaction-page'),
-      }
-    ]
+    canMatch: [IsAuthenticatedGuard]
+  },
+  {
+    path: 'register_transaction/:id',
+    title: 'Editar movimiento',
+    loadComponent: () => import('./pages/register-transaction-page/register-transaction-page'),
+    data: { mode: 'require-auth' },
+    canMatch: [IsAuthenticatedGuard]
   },
   {
     path: 'my_cards',

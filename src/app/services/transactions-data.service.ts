@@ -33,10 +33,25 @@ export class TransactionsDataService {
   }
 
 
+  getTransactionById(transactionId: string): Observable<Transactions | null> {
+    if (!this._token() || !this._userId()) return of(null);
+
+    return this.http.get<Transactions | null>(`${this.baseUrl}${this._userId()}/smartControl/transactions/${transactionId}.json?auth=${this._token()}`)
+      //.pipe(tap(resp => console.log('Transaction devuelta:', resp)));
+  }
+
+
   saveTransaction(transaction: Transactions) {
     if (!this._token() || !this._userId()) return of([]);
 
     return this.http.post(`${this.baseUrl}${this._userId()}/smartControl/transactions.json?auth=${this._token()}`, transaction);
+  }
+
+
+  updateTransaction(transaction: Transactions, transactionId: string) {
+    if (!this._token() || !this._userId()) return of([]);
+
+    return this.http.put(`${this.baseUrl}${this._userId()}/smartControl/transactions/${transactionId}.json?auth=${this._token()}`, transaction);
   }
 
 
@@ -57,7 +72,7 @@ export class TransactionsDataService {
         if (!resp) return [];
         return Object.entries(resp).map(([id, data]) => ({ ...data, id: id, })) as PaymentMethod[];   //"id" clave generada por Firebase
       }),
-      tap(resp => console.log('Cards mapeadas:', resp))
+      //tap(resp => console.log('Cards mapeadas:', resp))
     );
   }
 
@@ -66,36 +81,4 @@ export class TransactionsDataService {
     if (!this._token() || !this._userId()) return of([]);
     return this.http.post(`${this.baseUrl}${this._userId()}/smartControl/paymentMethods.json?auth=${this._token()}`, transaction);
   }
-
-  /*
-    // Guardaren DB
-    guardarMovimiento(movimiento: Transactions){
-      const token = this.loginService.IdToken;
-      this.httpClient.put('https://mat-angel.firebaseio.com/expenseControl/Lmovements.json?auth=' + token, movimientos).subscribe(
-        response => console.log('Resultado de guardar movimientos: ', response),
-        error => console.log('Error al guardar movimientos: ', error)
-        )
-        }
-
-    /*
-      modificarMovimiento(index: number, movimiento: Movimiento){
-        const token = this.loginService.IdToken;
-        let url: string;
-        url = 'https://mat-angel.firebaseio.com/expenseControl/Lmovements/' + index + '.json?auth=' + token;
-        this.httpClient.put(url, movimiento).subscribe(
-          response => console.log('Resultado de modificar movimiento: ', response),
-          error => console.log('Error al modificar movimiento: ', error)
-        )
-      }
-
-      eliminarMovimiento(index: number){
-        const token = this.loginService.IdToken;
-        let url: string;
-        url = 'https://mat-angel.firebaseio.com/expenseControl/Lmovements/' + index + '.json?auth=' + token;
-        this.httpClient.delete(url).subscribe(
-          response => console.log('Resultado de eliminar movimiento: ', response),
-          error => console.log('Error al eliminar movimiento: ', error)
-        )
-      }
-  */
 }

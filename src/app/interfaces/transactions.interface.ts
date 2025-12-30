@@ -22,6 +22,8 @@ export interface Payment {
 }
 
 export interface Periodic {
+  hasPeriodicity: boolean
+  paymentPlanType: PaymentPlan
   isActive: boolean
   periodicity: Periodicity;
   periodType: PeriodType;
