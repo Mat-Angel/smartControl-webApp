@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { SmartControlNabvarComponent } from "../../components/smart-control-nabvar/smart-control-nabvar.component";
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TransactionsDataService } from '../../services/transactions-data.service';
@@ -21,8 +21,18 @@ export default class MyCardsPage {
   loadingScreenService = inject(LoadingScreenService);
   formUtils = FormUtils;
 
+  @ViewChild('card3D', { static: false }) card3D!: ElementRef<HTMLElement>;
 
-  cardInfo = signal<PaymentMethod|null>(null);
+  goToSection() {
+      const timeout = setTimeout(() => {
+        this.card3D.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 5)
+  }
+
+  cardInfo = signal<PaymentMethod | null>(null);
 
   cardsResource = rxResource({
     params: () => ({ token: this.authService.token(), userId: this.authService.userId() }),
