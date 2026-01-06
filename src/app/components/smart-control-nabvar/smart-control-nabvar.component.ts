@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from "@angular/router";
 import { routes } from '../../app.routes';
 import { ProfileInfoComponent } from '@shared/profile-info/profile-info.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'smart-control-navbar',
@@ -14,18 +16,30 @@ export class SmartControlNabvarComponent {
   baseUrl = environment.gitRawUrl;
   private readonly routesWithoutNavbar = ['/auth/login', '/'];
 
-  showNavbar(): boolean {
-    console.log(this.router.url);
-    return !this.routesWithoutNavbar.includes(this.router.url);
-  }
 
-  routes = routes
-    .map((route) => ({
+  showNavbar = signal<boolean>(false);
+
+  currentUrl = toSignal(
+  this.router.events.pipe(
+    filter(e => e instanceof NavigationEnd),
+    map((e: NavigationEnd) => e.urlAfterRedirects)
+  ),
+  { initialValue: this.router.url }
+);
+
+showNavbarEffect = effect(() => {
+  this.showNavbar.set(
+    !this.routesWithoutNavbar.includes(this.currentUrl())
+  );
+});
+
+  menuRoutes = routes
+    .map(route => ({
       title: route.title ?? '',
-      path: route.path ?? ''
+      path: route.path ?? '',
+      onMenu: route.data?.['onMenu'] ?? false,
     }))
-    .filter((route) => route && route.path && route.title);  //* Excluye las rutas que no tengan path
-
+    .filter(route => route.onMenu); //* Filtra las rutas que esten seteadas en onMenu
 
 }
 

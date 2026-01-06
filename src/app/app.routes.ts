@@ -6,39 +6,42 @@ export const routes: Routes = [
     path: "",
     loadComponent: () => import('./pages/home-page/home-page'),
   },
+  /*
+  TODO: Generar página de inicio para mostrar ejemplos
   {
     path: 'dashboard',
     title: 'Inicio',
     loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
-    data: { mode: 'require-auth' },
+    data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard]
   },
+  */
   {
     path: 'movements',
     title: 'Movimientos',
     loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
-    data: { mode: 'require-auth' },
+    data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard]
   },
   {
     path: 'register_transaction',
     title: 'Registrar movimiento',
     loadComponent: () => import('./pages/register-transaction-page/register-transaction-page'),
-    data: { mode: 'require-auth' },
+    data: { mode: 'require-auth', onMenu: false },
     canMatch: [IsAuthenticatedGuard]
   },
   {
     path: 'register_transaction/:id',
     title: 'Editar movimiento',
     loadComponent: () => import('./pages/register-transaction-page/register-transaction-page'),
-    data: { mode: 'require-auth' },
+    data: { mode: 'require-auth', onMenu: false },
     canMatch: [IsAuthenticatedGuard]
   },
   {
     path: 'my_cards',
     title: 'Mis tarjetas',
     loadComponent: () => import('./pages/my-cards-page/my-cards-page'),
-    data: { mode: 'require-auth' },
+    data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard],
     children: [
       {
@@ -48,10 +51,28 @@ export const routes: Routes = [
       }
     ]
   },
+
+  /*
+  TODO: Generar página de servicios y de estadísticas
+  {
+    path: 'services_and_subscriptions',
+    title: 'Servicios y suscripciones',
+    loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
+    data: { mode: 'require-auth', onMenu: true },
+    canMatch: [IsAuthenticatedGuard]
+  },
+  {
+    path: 'statistics',
+    title: 'Estadísticas',
+    loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
+    data: { mode: 'require-auth', onMenu: true },
+    canMatch: [IsAuthenticatedGuard]
+  },
+  */
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes'),
-    data: { mode: 'guest-only' },
+    data: { mode: 'guest-only', onMenu: false },
     canMatch: [IsAuthenticatedGuard]
   },
 
