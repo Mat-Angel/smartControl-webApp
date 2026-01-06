@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, input, linkedSignal, output } from '@angular/core';
+import { CommonModule, I18nPluralPipe } from '@angular/common';
+import { Component, computed, input, linkedSignal, output, signal } from '@angular/core';
 
 @Component({
   selector: 'pagination',
-  imports: [CommonModule],
+  imports: [CommonModule, I18nPluralPipe],
   templateUrl: './pagination.html',
 })
 export class Pagination {
@@ -12,7 +12,12 @@ export class Pagination {
   totalItems = input.required<number>();
   pageSelected = output<number>();
 
-    // Total de páginas
+  pluralMovementsMap = signal({
+    '=1': 'movimiento',
+      other: 'movimientos'
+  })
+
+  // Total de páginas
   totalPages = computed(() => {
     const total = this.totalItems();
     const size = this.pageSize();

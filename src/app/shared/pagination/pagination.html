@@ -5,9 +5,9 @@
   <div class="divider m-0 h-0.5"></div>
   <div class="container flex flex-col md:flex-row items-center justify-between bg-base-100 rounded-lg shadow px-4 min-h-10 text-sm font-semibold opacity-90">
     @if (pages === 1) {
-      <div>Mostrando {{items}} movimientos</div>
+      <div>Mostrando {{items}} {{items | i18nPlural:pluralMovementsMap()}}</div>
     } @else {
-        <div>Mostrando {{fromMovement()}} a {{toMovement()}} de {{items}} movimientos</div>
+        <div>Mostrando {{fromMovement()}} a {{toMovement()}} de {{items}} {{items | i18nPlural:pluralMovementsMap()}}</div>
       }
 
     @if (pages > 1) {
