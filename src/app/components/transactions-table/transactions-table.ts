@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { Transactions } from '../../interfaces/transactions.interface';
 import { CurrencyPipe, I18nPluralPipe } from '@angular/common';
 import { RouterLink } from "@angular/router";
@@ -8,6 +8,8 @@ import { Utils } from '../../utils/utils';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormUtils } from '../../utils/form-utils';
+import { AlertService } from '@shared/alert-message/alert.service';
+
 
 export interface TwoColumnInfo {
   title: string;
@@ -21,6 +23,8 @@ export interface TwoColumnInfo {
   templateUrl: './transactions-table.html',
 })
 export class TransactionsTable {
+  private alertService = inject(AlertService);
+
   movementDetailModal = viewChild<ElementRef<HTMLDialogElement>>('movementDetail')
   transactionsList = input.required<Transactions[]>();
   monthOffset = input.required<number>();
@@ -85,7 +89,7 @@ export class TransactionsTable {
 
 
   generateReportPdf() {
-    if (this.transactionsList().length===0) { return };
+    if (this.transactionsList().length === 0) { return };
 
     const doc = new jsPDF();
 
@@ -193,9 +197,9 @@ export class TransactionsTable {
       didDrawPage: () => {
         const pageNumber = doc.getCurrentPageInfo().pageNumber;
         const disclaimerFooterText =
-        'Este documento es una representación visual sin valor jurídico, fiscal ni administrativo. Ha sido creado exclusivamente como material de ejemplo/demostración. La información contenida es simulada y no vinculante. Queda prohibido su uso como comprobante de transacción, identidad o propiedad.';
+          'Este documento es una representación visual sin valor jurídico, fiscal ni administrativo. Ha sido creado exclusivamente como material de ejemplo/demostración. La información contenida es simulada y no vinculante. Queda prohibido su uso como comprobante de transacción, identidad o propiedad.';
         const copyrightFooterText =
-        '© 2026 MAT-ANGEL. Queda prohibida la reproducción total o parcial de este modelo de documento para fines ajenos a esta demostración.';
+          '© 2026 MAT-ANGEL. Queda prohibida la reproducción total o parcial de este modelo de documento para fines ajenos a esta demostración.';
         const maxWidth = pageWidth * 1.3;
         const disclaimerLines = doc.splitTextToSize(disclaimerFooterText, maxWidth);
         const copyrightLines = doc.splitTextToSize(copyrightFooterText, maxWidth);
@@ -212,6 +216,10 @@ export class TransactionsTable {
     });
 
     doc.save(`Reporte_${month}_${date.getFullYear()}.pdf`);
+    this.alertService.showAlert('Se ha generado el reporte exitosamente.', 'success');
+
+    const pdfUrl = doc.output('bloburl');
+    window.open(pdfUrl, '_blank');
   }
 
   /*
