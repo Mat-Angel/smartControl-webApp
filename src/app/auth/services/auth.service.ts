@@ -3,18 +3,12 @@ import { AuthStatus } from '../interfaces/user.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User } from 'firebase/auth';
-import { NavigationService } from '@services/navigation.service';
 import { auth } from '../../firebase.config';
-import { AlertService } from '@shared/alert-message/alert.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private navigationService = inject(NavigationService);
-    private alertService = inject(AlertService);
-
-
   private _authStatus = signal<AuthStatus>('checking');
   private _userId = signal<string | null>(null);
   private _token = signal<string | null>(null);
