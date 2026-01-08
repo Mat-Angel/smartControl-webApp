@@ -84,8 +84,8 @@ export class TransactionsTable {
     */
 
 
-  generateStatementPdf() {
-    if (!this.transactionsList()) { return }
+  generateReportPdf() {
+    if (this.transactionsList().length===0) { return };
 
     const doc = new jsPDF();
 
@@ -103,7 +103,7 @@ export class TransactionsTable {
 
 
     const movementsDataIndividual = {
-      title: 'Estado de cuenta',
+      title: 'Reporte de movimientos',
       items: [
         {
           title: 'Saldo disponible',
@@ -137,7 +137,7 @@ export class TransactionsTable {
 
     const date = new Date();
     date.setMonth(date.getMonth() - this.monthOffset());
-    const month = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(date).toUpperCase();
+    const month = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(date);
 
     const imgBanner = new Image();
     imgBanner.src = './assets/PNG/banner2.png';
@@ -211,7 +211,7 @@ export class TransactionsTable {
       },
     });
 
-    doc.save(`estado_de_cuenta_${Utils.currentDate}.pdf`);
+    doc.save(`Reporte_${month}_${date.getFullYear()}.pdf`);
   }
 
   /*
