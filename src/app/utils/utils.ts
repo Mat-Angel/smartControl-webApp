@@ -8,20 +8,20 @@ export class Utils {
     'PNG': '/assets/PNG/',
     'SVG': '/assets/SVG/',
     'ICON': '/assets/ICONS/'
-  };
+  } as const;
 
   static pngImage = {
-    'REPORTBANNER': 'report_banner.png',
-    'MATBLACKLOGO': 'mat_minimal_black_logo.png',
-    'SMARTCONTROLLOGO': 'smartControl_logo.png'
-  };
+    'REPORT_BANNER': 'report_banner.png',
+    'MAT_BLACK_LOGO': 'mat_minimal_black_logo.png',
+    'SMARTCONTROL_LOGO': 'smartControl_logo.png'
+  }as const;
 
   static svgImage = {
-    'MATWHITEICON': 'mat_white_icon.svg'
-  };
+    'MAT_WHITE_ICON': 'mat_white_icon.svg'
+  }as const;
 
   static svgLogo = {
-  };
+  }as const;
 
 }
 
