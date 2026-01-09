@@ -75,7 +75,6 @@ export class TransactionsTable {
   }
 
 
-  /*
   loadImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -85,7 +84,6 @@ export class TransactionsTable {
       img.onerror = reject;
     });
   }
-    */
 
 
   generateReportPdf() {
@@ -139,20 +137,21 @@ export class TransactionsTable {
       ]);
 
 
+
     const date = new Date();
     date.setMonth(date.getMonth() - this.monthOffset());
     const month = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(date);
 
     const imgBanner = new Image();
-    imgBanner.src = './assets/PNG/banner2.png';
+    imgBanner.src = Utils.getPngImage('REPORT_BANNER');
     doc.addImage(imgBanner, 'png', 0, 0, 210, 35); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     const imgSCLogo = new Image();
-    imgSCLogo.src = './assets/PNG/logoColorSmall.png';
+    imgSCLogo.src = Utils.getPngImage('MAT_BLACK_LOGO');
     doc.addImage(imgSCLogo, 'PNG', 10, 7, 563 * .1, 188 * .1); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     const imgMatLogo = new Image();
-    imgMatLogo.src = './assets/PNG/MAT_complete_minimal.png';
+    imgMatLogo.src = Utils.getPngImage('SMARTCONTROL_LOGO');
     doc.addImage(imgMatLogo, 'png', 150, 7, 502 * .09, 192 * .09); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     doc.setFont('helvetica', 'bold');

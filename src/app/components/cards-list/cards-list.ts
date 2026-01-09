@@ -2,6 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { RouterLink } from "@angular/router";
 import { FormUtils } from '../../utils/form-utils';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'cards-list',
@@ -17,6 +18,7 @@ export class CardsList {
 
   selectedCard = output<PaymentMethod>();
 
+  srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
 
   selectCard(cardInfo: PaymentMethod) {
     console.log('selected card: ', cardInfo);
