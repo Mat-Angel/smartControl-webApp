@@ -14,14 +14,26 @@ export class Utils {
     'REPORT_BANNER': 'report_banner.png',
     'MAT_BLACK_LOGO': 'mat_minimal_black_logo.png',
     'SMARTCONTROL_LOGO': 'smartControl_logo.png'
-  }as const;
+  } as const;
 
   static svgImage = {
     'MAT_WHITE_ICON': 'mat_white_icon.svg'
-  }as const;
+  } as const;
 
-  static svgLogo = {
-  }as const;
+  static svgIcon = {
+  } as const;
 
+
+  static getPngImage(name: keyof typeof Utils.pngImage): string {
+    return `${Utils.paths.PNG}${Utils.pngImage[name]}`;
+  }
+
+  static getSvgImage(name: keyof typeof Utils.svgImage): string {
+    return `${Utils.paths.SVG}${Utils.svgImage[name]}`;
+  }
+
+  static getSvgIcon(name: keyof typeof Utils.svgIcon): string {
+    return `${Utils.paths.ICON}${Utils.svgIcon[name]}`;
+  }
 }
 
