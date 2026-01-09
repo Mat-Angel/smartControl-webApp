@@ -147,11 +147,11 @@ export class TransactionsTable {
     doc.addImage(imgBanner, 'png', 0, 0, 210, 35); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     const imgSCLogo = new Image();
-    imgSCLogo.src = Utils.getPngImage('MAT_BLACK_LOGO');
+    imgSCLogo.src = Utils.getPngImage('SMARTCONTROL_LOGO');
     doc.addImage(imgSCLogo, 'PNG', 10, 7, 563 * .1, 188 * .1); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     const imgMatLogo = new Image();
-    imgMatLogo.src = Utils.getPngImage('SMARTCONTROL_LOGO');
+    imgMatLogo.src = Utils.getPngImage('MAT_BLACK_LOGO');
     doc.addImage(imgMatLogo, 'png', 150, 7, 502 * .09, 192 * .09); //TODO Resolver el obtener de forma automatica los tamaños de imagen
 
     doc.setFont('helvetica', 'bold');
