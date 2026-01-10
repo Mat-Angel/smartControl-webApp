@@ -26,7 +26,7 @@
           </label>
           <form-text-helper [form]="transactionForm" fieldName="amount"></form-text-helper>
         </div>
-        <div class="flex flex-col col-span-2 mr-3">
+        <!-- <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Tipo de transacción</legend>
           <select class="select w-full" formControlName="transactionType">
             <option disabled selected value="">Seleccione tipo de transacción</option>
@@ -34,8 +34,15 @@
             <option [value]="option.value">{{option.label}}</option>
             }
           </select>
+        </div> -->
+        <div class="flex flex-col col-span-2">
+          <legend class="fieldset-legend">Tipo de transacción</legend>
+          <div class="join grid grid-cols-3">
+            @for (option of formUtils.transactionTypeOptions; track $index) {
+              <input type="radio" class="join-item btn btn-outline btn-info text-black border-base-300" formControlName="transactionType" [value]="option.value" [aria-label]="option.label" />
+            }
+          </div>
           <form-text-helper [form]="transactionForm" fieldName="transactionType"></form-text-helper>
-
         </div>
         <div class="flex flex-col col-span-2 mr-3">
           <legend class="fieldset-legend">Categoría</legend>
@@ -89,7 +96,7 @@
         </div>
         -->
         <div class="flex flex-col col-span-2">
-          <legend class="fieldset-legend">Estado del pago automático:</legend>
+          <legend class="fieldset-legend">Estado del pago automático</legend>
           <div class="join grid grid-cols-3 ">
             <button class="join-item btn btn-outline border-base-300" [class]="periodicityForm.controls['isActive'].value ?'btn-active bg-cyan-500' : ''"
                     (click)="periodicityForm.controls['isActive'].setValue(true); $event.preventDefault()" >
