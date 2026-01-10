@@ -58,9 +58,9 @@
 
   <transactions-table [transactionsList]="transactionsByMonth()" [errorMessage]="transactionsResource.error()"
     [isEmpty]="!transactionsResource.value()" [isLoading]="transactionsResource.isLoading()" [monthOffset]="monthOffset()"
-    (deleteMovement)="deleteMovement($event)" />
+    (deleteMovement)="deleteMovement($event)"/>
 
-  <div class="fab">
+  <div class="fab mb-16 sm:mb-0">
     <div tabindex="0" role="button" class="btn btn-lg btn-circle bg-blue-950 text-white">
       <svg aria-label="New" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -84,5 +84,3 @@
     </div>
     <!-- <div><span class="bg-black/70 rounded-md text-white px-2">Label D</span> <button class="btn btn-lg btn-circle">C</button></div> -->
   </div>
-
-</div>
