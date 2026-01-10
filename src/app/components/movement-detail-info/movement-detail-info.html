@@ -32,6 +32,14 @@
           </td>
       </tr>
       <tr>
+        <td>
+          <div class="flex flex-col">
+            <div class="text-sm opacity-50">Informaciónde pago (Cuenta / Tarjeta)</div>
+            <div class="text-md font-bold">{{detailData()?.paymentInfo?.bankName}} - {{detailData()?.paymentInfo?.title}}</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
         <td class="flex row justify-between">
           <div class="flex flex-col w-full">
             <div class="text-sm opacity-50">Tipo de transacción</div>
@@ -44,7 +52,7 @@
           </div>
           </td>
       </tr>
-      @if(detailData()?.periodicTransaction){
+      @if(detailData()?.periodicTransaction?.paymentPlanType === 'recurringPayment'){
         <tr>
           <td class="flex row justify-between">
             <div class="flex flex-col w-full">
@@ -64,27 +72,24 @@
               <div class="text-sm opacity-50">Periodicidad</div>
               <div class="text-md font-bold">Cada {{formUtils.periodicityTranslations[detailData()!.periodicTransaction!.periodicity]}}</div>
             </div>
-            @if(detailData()?.periodicTransaction?.installment?.total){
-            <span class="divider divider-horizontal"></span>
+          </td>
+        </tr>
+      }
+        @if(detailData()?.periodicTransaction?.installment?.total){
+        <tr>
+          <td class="flex row justify-between">
             <div class="flex flex-col w-full">
               <div class="text-sm opacity-50">Mensualidad</div>
               <div class="text-md font-bold">{{detailData()?.periodicTransaction?.installment?.current}} de {{detailData()?.periodicTransaction?.installment?.total}}</div>
             </div>
-            }
+            <span class="divider divider-horizontal"></span>
+            <div class="flex flex-col w-full">
+              <div class="text-sm opacity-50">Monto de mensualidad</div>
+              <div class="text-md font-bold">{{+detailData()!.amount / +detailData()?.periodicTransaction?.installment!.total | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
+            </div>
           </td>
         </tr>
-      }
-      <tr>
-        <td>
-          <div class="flex flex-col">
-            <div class="text-sm opacity-50">Informaciónde pago (Cuenta / Tarjeta)</div>
-            <div class="text-md font-bold">{{detailData()?.paymentInfo?.bankName}} - {{detailData()?.paymentInfo?.title}}</div>
-          </div>
-          </td>
-      </tr>
-      <!-- <tr class="hover:bg-base-300">
-        <td>Hart Hagerty</td>
-      </tr> -->
+        }
     </tbody>
   </table>
 </div>
