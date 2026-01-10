@@ -35,5 +35,24 @@ export class Utils {
   static getSvgIcon(name: keyof typeof Utils.svgIcon): string {
     return `${Utils.paths.ICON}${Utils.svgIcon[name]}`;
   }
+
+
+  static scrollToTop() {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 5);
+  }
+
+  static scrollToBottom() {
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 5);
+  }
 }
 

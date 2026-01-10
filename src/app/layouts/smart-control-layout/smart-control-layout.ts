@@ -9,6 +9,7 @@ import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../auth/services/auth.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { AlertService } from '@shared/alert-message/alert.service';
+import { Utils } from '../../utils/utils';
 
 
 @Component({
@@ -88,6 +89,7 @@ export default class SmartControlLayout {
 
   onLoadMovementByPeriod(period: number) {
     this.monthOffset.set(period);
+    Utils.scrollToBottom();
   }
 
 
