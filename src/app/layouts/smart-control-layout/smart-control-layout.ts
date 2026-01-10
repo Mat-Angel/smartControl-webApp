@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { TransactionsDataService } from '../../services/transactions-data.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TransactionsTable } from '../../components/transactions-table/transactions-table';
@@ -18,12 +18,22 @@ import { Utils } from '../../utils/utils';
   templateUrl: './smart-control-layout.html',
 })
 export default class SmartControlLayout {
+  @ViewChild('transactionsTable', { static: false }) transactionsTable!: ElementRef<HTMLElement>;
+
   transactionsDataService = inject(TransactionsDataService);
   authService = inject(AuthService);
   loadingScreenService = inject(LoadingScreenService);
   private alertService = inject(AlertService);
   private router = inject(Router);
 
+  goToTableSection() {
+    const timeout = setTimeout(() => {
+      this.transactionsTable.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 5)
+  }
 
   transactionsResource = rxResource({
     params: () => ({ token: this.authService.token(), userId: this.authService.userId() }),
@@ -89,7 +99,7 @@ export default class SmartControlLayout {
 
   onLoadMovementByPeriod(period: number) {
     this.monthOffset.set(period);
-    Utils.scrollToBottom();
+    this.goToTableSection();
   }
 
 

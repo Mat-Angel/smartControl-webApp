@@ -56,9 +56,11 @@
     </div>
   </div>
 
-  <transactions-table [transactionsList]="transactionsByMonth()" [errorMessage]="transactionsResource.error()"
-    [isEmpty]="!transactionsResource.value()" [isLoading]="transactionsResource.isLoading()" [monthOffset]="monthOffset()"
-    (deleteMovement)="deleteMovement($event)"/>
+  <section #transactionsTable>
+    <transactions-table  [transactionsList]="transactionsByMonth()" [errorMessage]="transactionsResource.error()"
+      [isEmpty]="!transactionsResource.value()" [isLoading]="transactionsResource.isLoading()" [monthOffset]="monthOffset()"
+      (deleteMovement)="deleteMovement($event)"/>
+  </section>
 
   <div class="fab mb-16 sm:mb-0">
     <div tabindex="0" role="button" class="btn btn-lg btn-circle bg-blue-950 text-white">
