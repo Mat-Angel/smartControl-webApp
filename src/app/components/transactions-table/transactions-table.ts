@@ -9,6 +9,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormUtils } from '../../utils/form-utils';
 import { AlertService } from '@shared/alert-message/alert.service';
+import { IconsService } from '@services/icons.service';
 
 export interface TwoColumnInfo {
   title: string;
@@ -22,6 +23,8 @@ export interface TwoColumnInfo {
 })
 export class TransactionsTable {
   private alertService = inject(AlertService);
+  iconsService = inject(IconsService);
+
 
   movementDetailModal = viewChild<ElementRef<HTMLDialogElement>>('movementDetail')
   transactionsList = input.required<Transactions[]>();

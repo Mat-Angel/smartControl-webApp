@@ -1,10 +1,11 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from "@angular/router";
+import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { routes } from '../../app.routes';
 import { ProfileInfoComponent } from '@shared/profile-info/profile-info.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
+import { IconsService } from '@services/icons.service';
 
 @Component({
   selector: 'smart-control-navbar',
@@ -13,6 +14,8 @@ import { filter, map } from 'rxjs';
 })
 export class SmartControlNabvarComponent {
   router = inject(Router);
+  iconsService = inject(IconsService);
+
   baseUrl = environment.gitRawUrl;
   private readonly routesWithoutNavbar = ['/auth/login', '/'];
 

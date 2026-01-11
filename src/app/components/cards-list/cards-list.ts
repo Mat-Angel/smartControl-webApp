@@ -1,8 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { RouterLink } from "@angular/router";
 import { FormUtils } from '../../utils/form-utils';
 import { Utils } from '../../utils/utils';
+import { IconsService } from '@services/icons.service';
 
 @Component({
   selector: 'cards-list',
@@ -11,6 +12,7 @@ import { Utils } from '../../utils/utils';
 })
 export class CardsList {
   cardsData = input.required<PaymentMethod[]>();
+  iconsService = inject(IconsService);
   errorMessage = input<string | unknown | null>();
   isLoading = input<boolean>(false);
   isEmpty = input<boolean>(false);

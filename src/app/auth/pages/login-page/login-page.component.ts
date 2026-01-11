@@ -7,6 +7,7 @@ import { AlertService } from '@shared/alert-message/alert.service';
 import { AuthService } from '../../services/auth.service';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { Router } from '@angular/router';
+import { IconsService } from '@services/icons.service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,6 +19,7 @@ export class LoginPageComponent {
   private loadingScreenService = inject(LoadingScreenService);
   encryptionService = inject(EncryptionService);
   authService = inject(AuthService);
+  iconsService = inject(IconsService);
   fb = inject(FormBuilder);
   private router = inject(Router);
   formUtils = FormUtils;

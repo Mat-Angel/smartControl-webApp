@@ -9,6 +9,8 @@ import { LoadingScreenService } from '@shared/loading-screen/loading-screen.serv
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { RouterModule } from "@angular/router";
 import { FormUtils } from '../../utils/form-utils';
+import { IconsService } from '@services/icons.service';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-my-cards-page',
@@ -19,6 +21,10 @@ export default class MyCardsPage {
   transactionsDataService = inject(TransactionsDataService);
   authService = inject(AuthService);
   loadingScreenService = inject(LoadingScreenService);
+  iconsService = inject(IconsService);
+
+  srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
+
   formUtils = FormUtils;
 
   @ViewChild('card3D', { static: false }) card3D!: ElementRef<HTMLElement>;

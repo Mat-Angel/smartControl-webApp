@@ -8,7 +8,7 @@
           [class]="transactionsList().length === 0 ? 'cursor-not-allowed opacity-30' : 'link-secondary cursor-pointer'"
           [disabled]="transactionsList().length === 0"
           (click)="generateReportPdf()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1M5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1zm15-1a1 1 0 0 1-2 0v-5h2z"/><path fill="currentColor" d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"/></svg>
+          <span [innerHTML]="iconsService.getSvgIcon('REPORT')"></span>
           <p class="ml-1">Reporte de movimientos</p>
         </button>
       </div>
@@ -23,11 +23,11 @@
             <div class="flex items-center gap-3">
               @if (transaction.transactionType === "income") {
               <div class="text-green-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"><path d="m3 17l6-6l4 4l8-8" /><path d="M17 7h4v4" /></g></svg>
+                <span [innerHTML]="iconsService.getSvgIcon('INCREASE_ARROW')"></span>
               </div>
               } @else {
               <div class="text-red-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.9"><path d="m3 7l6 6l4-4l8 8" /><path d="M17 17h4v-4" /></g></svg>
+                <span [innerHTML]="iconsService.getSvgIcon('DECREASE_ARROW')"></span>
               </div>
               }
               <div>
@@ -38,7 +38,7 @@
           </td>
           <td>
             <div class="badge badge-soft badge-info">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12s0 5.657-1.172 6.828S17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172S2 15.771 2 12Z" /><path stroke-linecap="round" d="M10 16H6m8 0h-1.5M2 10h20" opacity="0.5" /></g></svg>
+              <span [innerHTML]="iconsService.getSvgIcon('CARD')"></span>
               {{transaction.paymentInfo.title}}
             </div>
             <br />
@@ -84,16 +84,16 @@
 
     <div class="dropdown dropdown-end absolute right-2 top-4">
       <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0-6a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0" /></svg>
+        <span [innerHTML]="iconsService.getSvgIcon('OPTION')"></span>
       </div>
       <div tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 shadow-md border border-base-200 p-2">
         <ul>
           <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost" [routerLink]="['/register_transaction', selectedMovement()?.id]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" /></g></svg>
+            <span [innerHTML]="iconsService.getSvgIcon('EDIT')"></span>
             <span class="m-2">Editar</span>
           </li>
           <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost text-error" (click)="onDeleteMovement(selectedMovement()!.id ?? '')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" /></svg>
+            <span [innerHTML]="iconsService.getSvgIcon('DELETE')"></span>
             <span class="m-2">Eliminar</span>
           </li>
         </ul>

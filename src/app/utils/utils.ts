@@ -1,4 +1,8 @@
 import { formatDate } from '@angular/common';
+import { inject } from '@angular/core';
+
+
+
 
 export class Utils {
   static currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
@@ -21,6 +25,7 @@ export class Utils {
   } as const;
 
   static svgIcon = {
+    'HOME': 'home.svg'
   } as const;
 
 
@@ -30,10 +35,6 @@ export class Utils {
 
   static getSvgImage(name: keyof typeof Utils.svgImage): string {
     return `${Utils.paths.SVG}${Utils.svgImage[name]}`;
-  }
-
-  static getSvgIcon(name: keyof typeof Utils.svgIcon): string {
-    return `${Utils.paths.ICON}${Utils.svgIcon[name]}`;
   }
 
 
