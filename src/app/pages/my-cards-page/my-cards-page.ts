@@ -1,5 +1,4 @@
-import { Component, computed, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
-import { SmartControlNabvarComponent } from "../../components/smart-control-nabvar/smart-control-nabvar.component";
+import { Component, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TransactionsDataService } from '../../services/transactions-data.service';
 import { of } from 'rxjs';
@@ -11,10 +10,11 @@ import { RouterModule } from "@angular/router";
 import { FormUtils } from '../../utils/form-utils';
 import { IconsService } from '@services/icons.service';
 import { Utils } from '../../utils/utils';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-cards-page',
-  imports: [CardsList, RouterModule],
+  imports: [CardsList, RouterModule, CurrencyPipe],
   templateUrl: './my-cards-page.html',
 })
 export default class MyCardsPage {
@@ -22,9 +22,7 @@ export default class MyCardsPage {
   authService = inject(AuthService);
   loadingScreenService = inject(LoadingScreenService);
   iconsService = inject(IconsService);
-
   srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
-
   formUtils = FormUtils;
 
   @ViewChild('card3D', { static: false }) card3D!: ElementRef<HTMLElement>;
@@ -36,6 +34,20 @@ export default class MyCardsPage {
           block: 'start',
         });
       }, 5)
+  }
+
+  getCutoffDate(day: number){
+    const today = new Date();
+    const cutOffDate = new Date(today.getFullYear(), today.getMonth(), day);
+    return `${day} de ${new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(cutOffDate)}`;
+  }
+
+  getPaymentDate(cutoffDay: number, daysToPay: number){
+    const today = new Date();
+    const cutOffDate = new Date(today.getFullYear(), today.getMonth(), cutoffDay);
+    const paymentDate = new Date(cutOffDate);
+    paymentDate.setDate(paymentDate.getDate() + daysToPay);
+    return `${paymentDate.getDate()} de ${new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(paymentDate)}`;
   }
 
   cardInfo = signal<PaymentMethod | null>(null);

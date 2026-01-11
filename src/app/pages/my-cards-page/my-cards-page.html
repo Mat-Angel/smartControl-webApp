@@ -36,8 +36,10 @@
                 <div class="text-lg mt-5">{{cardInfo()!.accInfo.titularName ? cardInfo()!.accInfo.titularName : '0000 0000 0000 0000'}}</div>
                 <div class="flex justify-between">
                   <div>
-                    <div class="text-xs">Disponible / Saldo</div>
-                    <div>${{cardInfo()!.balanceInfo.balance}}</div>
+                    <div class="text-xs">{{cardInfo()?.accInfo?.paymentType === 'credit' ? 'Línea de crédito' : 'Saldo Disponible'}}</div>
+                    <div>{{(cardInfo()?.accInfo?.paymentType === 'credit' ? cardInfo()!.balanceInfo.creditLine : cardInfo()!.balanceInfo.balance)
+                         | currency:'MXN' : "symbol-narrow" : "1.2-2"}}
+                    </div>
                   </div>
                   <div>
                     <div class="text-xs">Dia de corte</div>
@@ -57,34 +59,36 @@
           </div>
 
 
-          <div class="stats shadow w-full">
-            <div class="stat">
-              <div class="stat-figure text-secondary">
-                <span class="inline-block h-8 w-8 stroke-current" [innerHTML]="iconsService.getSvgIcon('INFO')"></span>
-              </div>
-              <div class="stat-title">Downloads</div>
-              <div class="stat-value">31K</div>
-              <div class="stat-desc">Jan 1st - Feb 1st</div>
-            </div>
+          @if(cardInfo()?.accInfo?.paymentType === 'credit'){
+           <div class="stats shadow w-full">
+             <div class="stat">
+               <div class="stat-figure text-secondary">
+                 <span class="inline-block h-8 w-8 stroke-current" [innerHTML]="iconsService.getSvgIcon('INFO')"></span>
+               </div>
+               <div class="stat-title">Saldo Actual</div>
+               <div class="stat-value">{{cardInfo()!.balanceInfo.balance | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
+               <div class="stat-desc">Jan 1st - Feb 1st</div>
+             </div>
 
-            <div class="stat">
-              <div class="stat-figure text-secondary">
-                <span [innerHTML]="iconsService.getSvgIcon('SETTINGS')"></span>
+             <div class="stat">
+               <div class="stat-figure text-secondary w-10">
+                 <span [innerHTML]="iconsService.getSvgIcon('CUTOFF_DATE')"></span>
+                </div>
+                <div class="stat-title">Fecha de corte (Aprox.)</div>
+                <div class="stat-value">{{getCutoffDate(+cardInfo()!.balanceInfo.cutoffDay)}}</div>
+                <div class="stat-desc">↗︎ 400 (22%)</div>
               </div>
-              <div class="stat-title">New Users</div>
-              <div class="stat-value">4,200</div>
-              <div class="stat-desc">↗︎ 400 (22%)</div>
-            </div>
 
-            <div class="stat">
-              <div class="stat-figure text-secondary">
-                <span [innerHTML]="iconsService.getSvgIcon('BOX_ARCHIVE')"></span>
-              </div>
-              <div class="stat-title">New Registers</div>
-              <div class="stat-value">1,200</div>
-              <div class="stat-desc">↘︎ 90 (14%)</div>
-            </div>
-          </div>
+              <div class="stat">
+                <div class="stat-figure text-secondary w-10">
+                  <span [innerHTML]="iconsService.getSvgIcon('PAYMENT_DATE')"></span>
+                </div>
+               <div class="stat-title">Fecha de pago (Aprox.)</div>
+               <div class="stat-value">{{getPaymentDate(+cardInfo()!.balanceInfo.cutoffDay, +cardInfo()!.balanceInfo.daysToPay)}}</div>
+               <div class="stat-desc">↘︎ 90 (14%)</div>
+             </div>
+           </div>
+          }
 
         </div>
       }
