@@ -30,7 +30,7 @@
                     <span class="capitalize">{{formUtils.paymentTypeTranslations[cardInfo()!.accInfo.paymentType]}}</span>
                   </div>
                 </div>
-                <div class="text-yellow-500 shadow fixed inset-0 top-20 left-10 w-12">
+                <div class="text-yellow-500 fixed inset-0 top-20 left-10 w-12">
                   <span [innerHTML]="iconsService.getSvgIcon('CHIP')"></span>
                 </div>
                 <div class="text-lg mt-5">{{cardInfo()!.accInfo.titularName ? cardInfo()!.accInfo.titularName : '0000 0000 0000 0000'}}</div>
