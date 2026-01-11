@@ -56,7 +56,7 @@
     <div class="dock bg-linear-to-b from-blue-900 to-blue-950 text-white">
       @for (route of menuRoutes; track $index) {
       <button [routerLink]="['/', route.path]" routerLinkActive="text-cyan-400">
-        <span class="inline-flex text-cyan-500" [innerHTML]="iconsService.getSvgIcon('HOME')"></span>
+        <span class="inline-flex" [innerHTML]="iconsService.getSvgIcon(`MENU_${route.path}`)"></span>
         <span class="dock-label">{{route.title}}</span>
       </button>
       }
