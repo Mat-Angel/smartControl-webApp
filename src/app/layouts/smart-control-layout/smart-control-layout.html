@@ -1,13 +1,16 @@
 <div class="py-5">
-  <div class="flex justify-center">
-    <div class="stats shadow-md border border-base-200 bg-white">
+  <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center">
+
+    <months-graphic class="flex justify-end m-1 min-h-35 max-h-full" [graphicData]="getGraphicData()"></months-graphic>
+
+    <div class="stats flex justify-center shadow-md border border-base-200 bg-white mx-1 h-full">
       <div class="grid grid-cols-2">
         <div class="flex flex-row justify-center col-span-2 items-center">
           <span class="mr-5 text-black" [innerHTML]="iconsService.getSvgIcon('WALLET')"></span>
           <div>
             <div class="stat-title font-bold">Saldo disponible</div>
             <div class="stat-value text-black">{{balanceInfo().totalAvailable | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</div>
-            <div class="stat-desc">21% more than last month</div>
+            <!-- <div class="stat-desc">21% more than last month</div> -->
           </div>
         </div>
 
@@ -29,6 +32,9 @@
         </div>
       </div>
     </div>
+
+    <radial-chart class="flex justify-start m-1 min-h-35 max-h-full" [totalIncome]="balanceInfo().totalIncome" [totalExpenses]="balanceInfo().totalOutgoing" />
+
   </div>
 
   <div class="flex justify-center mt-5 mx-1">

@@ -97,4 +97,206 @@
 </div>
 
 
-<router-outlet/>
+
+
+/*
+<!--
+<div class="card bg-base-100 shadow">
+  <div class="card-body gap-4">
+    <h2 class="card-title">Ventas por categoría</h2>
+
+    <!-- Item --
+    <div class="flex items-center gap-3">
+      <span class="w-28 text-sm opacity-70">Laptops</span>
+      <progress class="progress progress-info w-full" value="70" max="100"></progress>
+      <span class="w-10 text-right text-sm">70%</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="w-28 text-sm opacity-70">Phones</span>
+      <progress class="progress progress-success w-full" value="45" max="100"></progress>
+      <span class="w-10 text-right text-sm">45%</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="w-28 text-sm opacity-70">Accesorios</span>
+      <progress class="progress progress-warning w-full" value="25" max="100"></progress>
+      <span class="w-10 text-right text-sm">25%</span>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Ingresos (últimos 6 meses)</h2>
+
+    <div class="flex items-end gap-3 h-40 mt-4">
+      <!-- Cada barra: h-* representa el valor --
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-24"></div>
+        <span class="text-xs opacity-70">Ago</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-16"></div>
+        <span class="text-xs opacity-70">Sep</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-32"></div>
+        <span class="text-xs opacity-70">Oct</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-20"></div>
+        <span class="text-xs opacity-70">Nov</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-36"></div>
+        <span class="text-xs opacity-70">Dic</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-8 rounded-box bg-info h-28"></div>
+        <span class="text-xs opacity-70">Ene</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Meta mensual</h2>
+
+    <div class="flex items-center gap-6">
+      <div class="radial-progress text-info" style="--value:72; --size:7rem; --thickness:10px;">
+        72%
+      </div>
+
+      <div>
+        <div class="text-sm opacity-70">Completado</div>
+        <div class="text-2xl font-semibold">$72,000</div>
+        <div class="text-sm opacity-70">de $100,000</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h2 class="card-title">Distribución</h2>
+
+    <!-- Conic gradient --
+    <div class="flex items-center gap-6">
+      <div class="h-28 w-28 rounded-full" style="background: conic-gradient(hsl(var(--in)) 0 40%, hsl(var(--su)) 40% 75%, hsl(var(--wa)) 75% 100%);"
+      ></div>
+
+      <div class="space-y-2 text-sm">
+        <div class="flex items-center gap-2"><span class="badge badge-info badge-xs"></span> A 40%</div>
+        <div class="flex items-center gap-2"><span class="badge badge-success badge-xs"></span> B 35%</div>
+        <div class="flex items-center gap-2"><span class="badge badge-warning badge-xs"></span> C 25%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="stats shadow w-full">
+  <div class="stat">
+    <div class="stat-title">Ingresos</div>
+    <div class="stat-value">$34.2k</div>
+    <div class="stat-desc">↗︎ 12% vs mes pasado</div>
+    <progress class="progress progress-info w-full mt-2" value="68" max="100"></progress>
+  </div>
+
+  <div class="stat">
+    <div class="stat-title">Gastos</div>
+    <div class="stat-value">$18.9k</div>
+    <div class="stat-desc">↘︎ 5%</div>
+    <progress class="progress progress-warning w-full mt-2" value="42" max="100"></progress>
+  </div>
+
+  <div class="stat">
+    <div class="stat-title">Ahorro</div>
+    <div class="stat-value">$15.3k</div>
+    <div class="stat-desc">↗︎ 22%</div>
+    <progress class="progress progress-success w-full mt-2" value="74" max="100"></progress>
+  </div>
+</div>
+
+
+<div class="stats shadow">
+  <div class="stat">
+    <div class="stat-title">Tareas Completadas</div>
+    <div class="stat-value text-primary">80%</div>
+    <div class="stat-desc">21% más que el mes pasado</div>
+  </div>
+
+  <div class="stat">
+    <div class="radial-progress text-secondary" style="--value:70; --size:3rem;">70%</div>
+  </div>
+</div>
+
+<div class="card bg-base-100 shadow-xl p-6">
+  <h2 class="card-title mb-6">Ventas Semanales</h2>
+
+  <div class="flex items-end justify-between h-48 gap-2">
+    @for (item of dataMT; track item.day) {
+      <div class="flex flex-col items-center flex-1 group">
+        <div
+          class="tooltip tooltip-primary w-full rounded-t-lg bg-primary transition-all duration-300 hover:bg-primary-focus"
+          [style.height.%]="item.value"
+          [attr.data-tip]="item.value + '%'">
+        </div>
+        <span class="text-xs mt-2 text-base-content/70">{{ item.day }}</span>
+      </div>
+    }
+  </div>
+</div>
+
+
+<div class="bg-base-200 p-4 rounded-box">
+  <h3 class="text-sm font-bold mb-3">Actividad del Sistema</h3>
+  <div class="grid grid-cols-7 gap-1">
+    @for (block of activityBlocks; track $index) {
+      <div
+        class="w-4 h-4 rounded-sm"
+        [class]="{'bg-primary': block.level === 3,
+          'bg-primary/60': block.level === 2,
+          'bg-primary/30': block.level === 1,
+          'bg-base-300': block.level === 0
+        }">
+      </div>
+    }
+  </div>
+  <div class="flex justify-between mt-2 text-[10px] opacity-50">
+    <span>Menos</span>
+    <span>Más</span>
+  </div>
+</div>
+
+
+
+
+
+<div class="flex flex-wrap gap-8 justify-center">
+  <div
+    class="radial-progress text-secondary"
+    style="--value:75; --size:12rem; --thickness: 2px;"
+    role="progressbar">
+    <div class="text-center">
+      <span class="text-3xl font-bold text-base-content">75%</span>
+      <p class="text-xs opacity-50">Carga CPU</p>
+    </div>
+  </div>
+
+  <div class="radial-progress text-accent" style="--value:40; --size:12rem; --thickness: 1rem;">
+    <div class="radial-progress text-primary" style="--value:70; --size:8rem; --thickness: 1rem;">
+       <span class="text-base-content">Mix</span>
+    </div>
+  </div>
+</div> -->

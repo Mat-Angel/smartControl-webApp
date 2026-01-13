@@ -1,0 +1,12 @@
+<div class="card bg-base-100 shadow md:w-80 w-full">
+  <div class="card-body justify-center gap-0 py-2">
+    <h2 class="card-title">Balance (Últimos 3 meses)</h2>
+    @for (item of graphicData(); track $index) {
+      <div class="flex items-center p-0 gap-0">
+        <span class="w-10  text-sm opacity-70 capitalize">{{item.month}}</span>
+        <progress class="progress progress-info w-45" [class.bg-red-200]="item.balance<0" [value]="item.balance" max="100"></progress>
+        <span class="w-10 mx-2 text-right text-sm"[class.text-error]="item.balance<0">{{item.balance | currency}}</span>
+      </div>
+    }
+  </div>
+</div>

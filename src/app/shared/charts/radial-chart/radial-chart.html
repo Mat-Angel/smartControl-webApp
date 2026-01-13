@@ -1,0 +1,32 @@
+
+<div class="card bg-base-100 shadow md:w-80 w-full">
+  <div class="card-body justify-center gap-0.5 py-1">
+    <h2 class="card-title ">{{title}}</h2>
+    <div class="flex items-center justify-center gap-6">
+      <div class="relative inline-grid place-items-center">
+        <!-- Fondo -->
+        <div class="radial-progress" [class]="isDeficit() ? 'text-error opacity-40':'text-base-300'" style="--value: 100; --size: 6rem; --thickness: 10px;"></div>
+        <!-- Chart -->
+         @if (totalExpenses() || totalIncome()) {
+
+           <div class="radial-progress text-center font-semibold absolute" [class]="isDeficit() ? 'text-error':'text-green-500'"
+           [style]="`--value:${percent()}; --size:6rem; --thickness:10px;`">
+           <span [class]="isDeficit() ? 'text-error':'text-black'">%{{percent()}}<br>{{isDeficit() ? 'Déficit' : 'Disponible'}}</span>
+          </div>
+        }
+
+      </div>
+      <div>
+        <p class="text-sm opacity-70">Total de gastos</p>
+        <p class="text-2xl font-semibold">{{totalExpenses() | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</p>
+        <p class="text-sm opacity-70">
+          de <span class="font-semibold opacity-100">{{totalIncome() | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
+          de ingresos
+        </p>
+      </div>
+    </div>
+    @if (isDeficit()) {
+      <p class="stat-title font-bold text-error whitespace-normal">Tu balance presenta un déficit. Tus egresos superan tus ingresos.</p>
+    }
+  </div>
+</div>
