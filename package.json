@@ -29,6 +29,7 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "apexcharts": "^5.3.6",
     "daisyui": "^5.5.8",
     "firebase": "^12.6.0",
     "jspdf": "^4.0.0",
