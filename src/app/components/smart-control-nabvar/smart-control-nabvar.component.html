@@ -5,9 +5,13 @@
         <img [src]="`${baseUrl}neon_mat_2025.png`" width="125" title="MAT Angel" draggable="false">
       </a>
 
-      <label for="my-drawer-1" class="block sm:hidden text-white btn btn-ghost btn-xs justify-self-start">
+      <!-- <label for="my-drawer-1" class="block sm:hidden text-white btn btn-ghost btn-xs justify-self-start">
         <span [innerHTML]="iconsService.getSvgIcon('MENU')"></span>
-      </label>
+      </label> -->
+
+      <a href="https://mat-angel.com" target="_blank" class="justify-self-start px-2">
+        <img [src]="utils.getSvgImage('MAT_WHITE_ICON')" width="40" title="SmartControl logo" draggable="false">
+      </a>
 
       <a [routerLink]="['/movements']" class="justify-self-center">
         <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" width="125" title="SmartControl logo" draggable="false">
@@ -31,7 +35,7 @@
   </section>
 
   <!-- TODO: Deleted unused sidebar -->
-  <div class="drawer">
+  <!-- <div class="drawer">
     <input #sideBar id="my-drawer-1" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side">
       <label for="my-drawer-1" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -50,7 +54,7 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <section class="block sm:hidden">
     <div class="dock bg-linear-to-b from-blue-900 to-blue-950 text-white">

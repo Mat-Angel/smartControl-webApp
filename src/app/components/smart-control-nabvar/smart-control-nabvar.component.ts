@@ -6,6 +6,7 @@ import { ProfileInfoComponent } from '@shared/profile-info/profile-info.componen
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { IconsService } from '@services/icons.service';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'smart-control-navbar',
@@ -15,6 +16,7 @@ import { IconsService } from '@services/icons.service';
 export class SmartControlNabvarComponent {
   router = inject(Router);
   iconsService = inject(IconsService);
+  utils = Utils;
 
   baseUrl = environment.gitRawUrl;
   private readonly routesWithoutNavbar = ['/auth/login', '/'];
