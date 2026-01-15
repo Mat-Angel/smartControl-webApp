@@ -1,0 +1,53 @@
+<div class="flex justify-center pb-15 sm:pb-0">
+  <div class="container grid grid-cols-2 my-5 gap-2">
+
+    <div class="card card-border md:col-span-1 col-span-2 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title">Tarjetas de crédito</h2>
+        <div class="overflow-x-auto">
+          <table class="table table-zebra">
+            <thead>
+              <tr>
+                <th>Tarjeta</th>
+                <th>Saldo</th>
+                <th>Línea de crédito</th>
+                <th>% Utilizado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (data of barsTableData(); track $index) {
+                <tr>
+                  <td class="font-medium">{{ data.cardLabel }}</td>
+                  <td>{{ data.value | currency:'MXN' : "symbol-narrow" : "1.2-2" }} </td>
+                  <td>{{ data.creditLine | currency:'MXN' : "symbol-narrow" : "1.2-2" }} </td>
+                  <td>
+                    <div class="grid grid-cols-2 items-center gap-2">
+                      <progress class="progress w-full" [class]="data.overdraft ? 'progress-error' : 'progress-info'" [value]="data.value" [max]="data.creditLine"></progress>
+                      <span>{{data.percent}}</span>
+                    </div>
+                    @if(data.overdraft){
+                      <span class="text-error font-semibold opacity-90">Tarjeta sobregirada por {{+data.value - data.creditLine | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
+                    }
+
+                  </td>
+                </tr>
+
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-border md:col-span-1 col-span-2 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title">Cuentas de débito</h2>
+        <div class="overflow-x-auto">
+
+          <donut-chart [chartData]="donutChartData()"></donut-chart>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

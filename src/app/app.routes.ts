@@ -51,6 +51,14 @@ export const routes: Routes = [
       }
     ]
   },
+/*
+  {
+    path: 'test',
+    title: 'Grafics test',
+    loadComponent: () => import('./pages/Test/GraficsTest/GraficsTest'),
+    data: { mode: 'require-auth', onMenu: true },
+    canMatch: [IsAuthenticatedGuard]
+  },
 
   /*
   TODO: Generar página de servicios y de estadísticas
@@ -61,14 +69,14 @@ export const routes: Routes = [
     data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard]
   },
+  */
   {
     path: 'statistics',
     title: 'Estadísticas',
-    loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
+    loadComponent: () => import('./pages/statistics-page/statistics-page'),
     data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard]
   },
-  */
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes'),
