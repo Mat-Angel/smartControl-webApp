@@ -79,7 +79,7 @@ export class DonutChart {
                 show: true,
                 fontFamily: 'Inter, sans-serif',
                 offsetY: -20,
-                formatter: (value: number) => `${value}`,
+                formatter: (value: number) => `$${value}`,
               },
               total: {
                 showAlways: true,
