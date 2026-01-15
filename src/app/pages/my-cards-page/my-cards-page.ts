@@ -64,35 +64,4 @@ export default class MyCardsPage {
     this.loadingScreenService.setLoadingState(this.cardsResource.isLoading())
   });
 
-
-  dataMT = [
-    {day:'lunes' ,value: 'dgsfhjsd'},
-    {day:'martes' ,value: 'dgsfhjsd'},
-    {day:'miercoles' ,value: 'dgsfhjsd'},
-    {day:'jueves' ,value: 'dgsfhjsd'},
-    {day:'viernes' ,value: 'dgsfhjsd'}
-  ];
-
-  activityBlocks = [
-    {level:0},
-    {level:2},
-    {level:3},
-    {level:4},
-    {level:5},
-  ];
-
-data = [
-  { x: 0, y: 80, label: 'Lun' },
-  { x: 50, y: 20, label: 'Mar' },
-  { x: 100, y: 60, label: 'Mie' },
-  { x: 150, y: 40, label: 'Jue' },
-  { x: 200, y: 90, label: 'Vie' }
-];
-
-get points(): string {
-  return this.data.map(d => `${d.x},${100 - d.y}`).join(' ');
-}
-
-
-
 }
