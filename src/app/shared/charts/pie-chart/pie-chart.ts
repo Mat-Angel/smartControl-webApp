@@ -74,7 +74,7 @@ export class PieChart {
     const brandTertiaryColor = this.getBrandTertiaryColor();
     const neutralPrimaryColor = this.getNeutralPrimaryColor();
     return {
-      series: [52.8, 26.8, 20.4],
+      series: [0,0,0,0],
       colors: [brandColor, brandSecondaryColor, brandTertiaryColor],
       chart: {
         height: 420,
@@ -96,7 +96,7 @@ export class PieChart {
           }
         },
       },
-      labels: ["Direct", "Organic search", "Referrals"],
+      labels: ["","","",""],
       dataLabels: {
         enabled: true,
         style: {
