@@ -1,9 +1,9 @@
 <div class="py-5 pb-15 sm:pb-0">
   <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center">
 
-    <months-graphic class="flex justify-end m-1 min-h-35 max-h-full" [graphicData]="getGraphicData()"></months-graphic>
+    <months-graphic class="flex justify-end m-1 min-h-35 max-h-full order-2 sm:order-1" [graphicData]="getGraphicData()"></months-graphic>
 
-    <div class="stats flex justify-center shadow-md border border-base-200 bg-white mx-1 h-full">
+    <div class="stats flex justify-center shadow-md border border-base-200 bg-white mx-1 h-full order-1 sm:order-2">
       <div class="grid grid-cols-2">
         <div class="flex flex-row justify-center col-span-2 items-center">
           <span class="mr-5 text-black" [innerHTML]="iconsService.getSvgIcon('WALLET')"></span>
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <radial-chart class="flex justify-start m-1 min-h-35 max-h-full" [totalIncome]="balanceInfo().totalIncome" [totalExpenses]="balanceInfo().totalOutgoing" />
+    <radial-chart class="flex justify-start m-1 min-h-35 max-h-full order-3" [totalIncome]="balanceInfo().totalIncome" [totalExpenses]="balanceInfo().totalOutgoing" />
 
   </div>
 
