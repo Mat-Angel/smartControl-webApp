@@ -22,9 +22,9 @@
                   <td>{{ data.value | currency:'MXN' : "symbol-narrow" : "1.2-2" }} </td>
                   <td>{{ data.creditLine | currency:'MXN' : "symbol-narrow" : "1.2-2" }} </td>
                   <td>
-                    <div class="grid grid-cols-2 items-center gap-2">
-                      <progress class="progress w-full" [class]="data.overdraft ? 'progress-error' : 'progress-info'" [value]="data.value" [max]="data.creditLine"></progress>
+                    <div class="grid grid-rows-1 items-center">
                       <span>{{data.percent}}</span>
+                      <progress class="progress w-full" [class]="data.overdraft ? 'progress-error' : 'progress-info'" [value]="data.value" [max]="data.creditLine"></progress>
                     </div>
                     @if(data.overdraft){
                       <span class="text-error font-semibold opacity-90">Tarjeta sobregirada por {{+data.value - data.creditLine | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
