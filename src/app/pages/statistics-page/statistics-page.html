@@ -45,8 +45,17 @@
         <h2 class="card-title">Cuentas de débito</h2>
         <div class="divider m-0"></div>
         <div class="overflow-x-auto">
-
           <donut-chart [chartData]="donutChartData()"></donut-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-border md:col-span-1 col-span-2 bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title">Gastos por categoria</h2>
+        <div class="divider m-0"></div>
+        <div class="overflow-x-auto">
+          <pie-chart [chartData]="pieChartData()"></pie-chart>
         </div>
       </div>
     </div>

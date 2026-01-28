@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild, effect, input, signal } from '@angula
 import ApexCharts from 'apexcharts';
 import type { ApexOptions } from 'apexcharts';
 
-type Device = 'desktop' | 'tablet' | 'mobile' | 'all';
 type ChartData = {
   values: number[];
   labels?: string[];
