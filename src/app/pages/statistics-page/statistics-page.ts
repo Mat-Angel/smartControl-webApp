@@ -7,20 +7,24 @@ import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { CurrencyPipe } from '@angular/common';
 import { DonutChart } from "@shared/charts/donut-chart/donut-chart";
 import { PieChart } from "@shared/charts/pie-chart/pie-chart";
-import { Transactions } from '@interfaces/transactions.interface';
+import { Transactions, TransactionType } from '@interfaces/transactions.interface';
+import { LineChart } from "@shared/charts/line-chart/line-chart";
+import { Utils } from '../../utils/utils';
 
-type BarItem = { label: string; value: number; maxValue: number };
-
+type LabelsChartData = {
+  series: Array<{ name: string; data: number[]; color?: string }>;
+  categories: string[];
+};
 
 @Component({
   selector: 'app-statistics-page',
-  imports: [CurrencyPipe, DonutChart, PieChart],
+  imports: [CurrencyPipe, DonutChart, PieChart, LineChart],
   templateUrl: './statistics-page.html',
 })
 export default class StatisticsPage {
-
   authService = inject(AuthService);
   transactionsDataService = inject(TransactionsDataService);
+  readonly TransactionType = TransactionType;
 
   monthOffset = signal(0);   // 0 = mes actual, 1 = mes anterior, 2 = hace 2 meses...
 
@@ -76,8 +80,17 @@ export default class StatisticsPage {
   });
 
 
+  expensePieChartData = computed(() => {
+    const filteredData = this.onFilterPieChartData('outgoing');
+    return filteredData;
+  });
 
-  pieChartData = computed(() => {
+  incomePieChartData = computed(() => {
+    const filteredData = this.onFilterPieChartData('income');
+    return filteredData;
+  });
+
+  onFilterPieChartData(transactionType: 'income' | 'outgoing') {
     const transactions = this.transactionsResource.value() ?? [];
 
     const today = new Date();
@@ -88,7 +101,7 @@ export default class StatisticsPage {
     // 1) filtra el mes y SOLO gastos
     const monthExpenses = transactions
       .filter(t => this.isSameMonth(t.operationDate, actualMonth, actualYear))
-      .filter(t => t.transactionType === 'outgoing');
+      .filter(t => t.transactionType === transactionType);
 
     // 2) agrupa por categoría y suma montos
     const totalsByCategory = new Map<string, number>();
@@ -105,5 +118,77 @@ export default class StatisticsPage {
     const values = Array.from(totalsByCategory.values());
 
     return { labels, values };
+  }
+
+  private parseAmount(amount: number | string): number {
+    const n = typeof amount === 'number' ? amount : Number(amount);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  private formatMonthLabel(month0to11: number, year: number): string {
+    const yyyy = String(year);
+    return `${Utils.MONTHS_ES[month0to11]}-${yyyy}`;
+  }
+
+  // Ejemplo: si hoy es 2026-01, devuelve [ {m:0,y:2026}, {m:11,y:2025}, {m:10,y:2025} ]
+  private getLastNMonths(n: number): Array<{ m: number; y: number }> {
+    const base = new Date();
+    base.setDate(1); // estable
+    const result: Array<{ m: number; y: number }> = [];
+
+    for (let i = 0; i < n; i++) {
+      const d = new Date(base);
+      d.setMonth(d.getMonth() - i);
+      result.push({ m: d.getMonth(), y: d.getFullYear() });
+    }
+
+    return result;
+  }
+
+  labelsChartData = computed<LabelsChartData>(() => {
+    const transactions: Transactions[] = this.transactionsResource.value() ?? [];
+
+    const months = this.getLastNMonths(3); // [actual, -1, -2]
+
+    const categories = months
+      .slice()
+      .reverse() // para que quede de antiguo -> actual
+      .map(({ m, y }) => this.formatMonthLabel(m, y));
+
+    const incomeData: number[] = [];
+    const outgoingData: number[] = [];
+
+    // IMPORTANTe: llenar data en el mismo orden que categories (antiguo -> actual)
+    for (const { m, y } of months.slice().reverse()) {
+      const monthTx = transactions.filter(t => this.isSameMonth(t.operationDate, m, y));
+
+      const totalIncome = monthTx
+        .filter(t => t.transactionType === 'income')
+        .reduce((sum, t) => sum + this.parseAmount(t.amount), 0);
+
+      const totalOutgoing = monthTx
+        .filter(t => t.transactionType === 'outgoing')
+        .reduce((sum, t) => sum + this.parseAmount(t.amount), 0);
+
+      incomeData.push(Number(totalIncome.toFixed(2)));
+      outgoingData.push(Number(totalOutgoing.toFixed(2)));
+    }
+
+    return {
+      series: [
+        {
+          name: 'Ingresos',
+          data: incomeData,
+          color: '#39C643',
+        },
+        {
+          name: 'Gastos',
+          data: outgoingData,
+          color: '#EF5350',
+        },
+      ],
+      categories,
+    };
   });
+
 }

@@ -1,6 +1,5 @@
 import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
 import ApexCharts from 'apexcharts';
-import type { ApexOptions } from 'apexcharts';
 
 type ChartData = {
   values: number[];
@@ -20,7 +19,7 @@ export class PieChart {
 
   private chart?: ApexCharts;
 
-    private readonly syncChartEffect = effect(() => {
+  private readonly syncChartEffect = effect(() => {
     const data = this.chartData();
     if (!this.chart) return;
 
@@ -74,7 +73,7 @@ export class PieChart {
     const brandTertiaryColor = this.getBrandTertiaryColor();
     const neutralPrimaryColor = this.getNeutralPrimaryColor();
     return {
-      series: [0,0,0,0],
+      series: [0, 0, 0, 0],
       colors: [brandColor, brandSecondaryColor, brandTertiaryColor],
       chart: {
         height: 420,
@@ -96,7 +95,7 @@ export class PieChart {
           }
         },
       },
-      labels: ["","","",""],
+      labels: ["", "", "", ""],
       dataLabels: {
         enabled: true,
         style: {
@@ -110,7 +109,7 @@ export class PieChart {
       yaxis: {
         labels: {
           formatter: function (value: any) {
-            return  `$${value}`
+            return `$${value}`
           },
         },
       },

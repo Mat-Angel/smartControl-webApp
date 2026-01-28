@@ -7,6 +7,8 @@ import { inject } from '@angular/core';
 export class Utils {
   static currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
   static currentDateTime = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss', 'en-US');
+  static readonly MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'] as const;
+
 
   static paths = {
     'PNG': '/assets/PNG/',
