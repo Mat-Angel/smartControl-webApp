@@ -9,7 +9,7 @@ import { AlertService } from '@shared/alert-message/alert.service';
 import { Utils } from '../../utils/utils';
 import { FormUtils } from '../../utils/form-utils';
 import { AuthService } from '../../auth/services/auth.service';
-import { map, tap } from 'rxjs';
+import { finalize, map, of, switchMap, tap } from 'rxjs';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,8 +29,8 @@ export default class RegisterTransaction implements AfterViewInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
-  utils = Utils;
-  formUtils = FormUtils
+  readonly utils = Utils;
+  readonly formUtils = FormUtils
 
   paymentPlanSelected = signal<string | null>(null);
 
@@ -56,8 +56,8 @@ export default class RegisterTransaction implements AfterViewInit {
   });
 
   periodicityForm: FormGroup = this.fb.group({
-    hasPeriodicity:[false],
-    isActive:[null],
+    hasPeriodicity: [false],
+    isActive: [null],
     paymentPlanType: [{ value: '', disabled: true }],
     periodicity: [''],
     startDatePeriodicity: [this.utils.currentDate],
@@ -132,29 +132,36 @@ export default class RegisterTransaction implements AfterViewInit {
       });
   }
 
-  loadTransactionById(movementId: string) {
-    this.loadingScreenService.setLoadingState(true);
-    this.transactionsDataService.getTransactionById(movementId)
-      .subscribe({
-        next: (resp) => {
-          this.loadingScreenService.setLoadingState(false);
-          if (!resp) {
-            this.alertService.showAlert('Hubo un problema al cargar la información. Intente de nuevo', 'error');
-            return;
-          }
-          this.movementData.set(resp);
-          this.setFormsData(resp);
+loadTransactionById(movementId: string) {
+  this.loadingScreenService.setLoadingState(true);
 
+  this.transactionsDataService.getTransactionById(movementId).pipe(
+    switchMap(tx => tx ? of(tx) : this.transactionsDataService.getPaymentById(movementId)),
+    finalize(() => this.loadingScreenService.setLoadingState(false))
+  )
+  .subscribe({
+    next: (resp) => {
+      if (!resp) {
+        this.alertService.showAlert(
+          'Hubo un problema al cargar la información. Intente de nuevo',
+          'error'
+        );
+        return;
+      }
 
-        },
-        error: () => {
-          this.loadingScreenService.setLoadingState(false);
-          this.alertService.showAlert('Hubo un problema al cargar la información. Intente de nuevo', 'error');
-        }
-      });
-  }
+      this.movementData.set(resp);
+      this.setFormsData(resp);
+    },
+    error: () => {
+      this.alertService.showAlert(
+        'Hubo un problema al cargar la información. Intente de nuevo',
+        'error'
+      );
+    }
+  });
+}
 
-  setFormsData(transactionData:Transactions){
+  setFormsData(transactionData: Transactions) {
     this.transactionForm.get('title')!.setValue(transactionData?.title);
     this.transactionForm.get('description')!.setValue(transactionData?.description);
     this.transactionForm.get('amount')!.setValue(transactionData?.amount);
@@ -238,19 +245,49 @@ export default class RegisterTransaction implements AfterViewInit {
       }
     }
 
-    if(this.movementData()){
-          this.transactionsDataService.updateTransaction(data, this.queryId()).subscribe({
-      next: (response) => {
-        this.alertService.showAlert('Se ha actualizado la transacción correctamente', 'success');
-        //console.log('OK:', response);
-        this.router.navigate(['/movements']);
-      },
-      error: (err) => {
-        this.alertService.showAlert('Hubo un problema al actualizar la transacción. Intente de nuevo', 'error');
-        //console.error('Error:', err);
+    if (this.movementData()) {
+      if (data.periodicTransaction?.hasPeriodicity) {
+        this.transactionsDataService.updateAutomatedPayment(data, this.queryId()).subscribe({
+          next: (response) => {
+            this.alertService.showAlert('Se ha actualizado la transacción correctamente', 'success');
+            //console.log('OK:', response);
+            this.router.navigate(['/movements']);
+          },
+          error: (err) => {
+            this.alertService.showAlert('Hubo un problema al actualizar la transacción. Intente de nuevo', 'error');
+            //console.error('Error:', err);
+          }
+        });
+        return;
       }
-    });
-    return;
+
+      this.transactionsDataService.updateTransaction(data, this.queryId()).subscribe({
+        next: (response) => {
+          this.alertService.showAlert('Se ha actualizado la transacción correctamente', 'success');
+          //console.log('OK:', response);
+          this.router.navigate(['/movements']);
+        },
+        error: (err) => {
+          this.alertService.showAlert('Hubo un problema al actualizar la transacción. Intente de nuevo', 'error');
+          //console.error('Error:', err);
+        }
+      });
+      return;
+    }
+
+    if (data.periodicTransaction?.hasPeriodicity) {
+      this.transactionsDataService.saveAutomatedPayment(data).subscribe({
+        next: (response) => {
+          this.alertService.showAlert('Se ha guardado la transacción correctamente', 'success');
+          //console.log('OK:', response);
+          this.router.navigate(['/movements']);
+        },
+        error: (err) => {
+          this.alertService.showAlert('Hubo un problema al guardar la transacción. Intente de nuevo', 'error');
+          //console.error('Error:', err);
+        }
+      });
+      return;
     }
 
     this.transactionsDataService.saveTransaction(data).subscribe({

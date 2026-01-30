@@ -7,7 +7,7 @@ export interface Transactions {
   transactionType: TransactionType;
   category: string;
   paymentInfo: Payment;
-  periodicTransaction?: Periodic;
+  periodicTransaction?: PeriodicPayment;
 }
 
 export enum TransactionType {
@@ -21,7 +21,7 @@ export interface Payment {
   type: PaymentType;
 }
 
-export interface Periodic {
+export interface PeriodicPayment {
   hasPeriodicity: boolean
   paymentPlanType: PaymentPlan
   isActive: boolean
@@ -68,5 +68,6 @@ export interface Balance {
 
 export enum PaymentPlan {
   recurringPayment = "recurringPayment",
-  installment = "installment"
+  installment = "installment",
+  default = "default"
 }

@@ -37,6 +37,15 @@ export const routes: Routes = [
     data: { mode: 'require-auth', onMenu: false },
     canMatch: [IsAuthenticatedGuard]
   },
+
+  {
+    path: 'automated_payments',
+    title: 'Cargos Automáticos',
+    loadComponent: () => import('./pages/automated-payments-page/automated-payments-page'),
+    data: { mode: 'require-auth', onMenu: true },
+    canMatch: [IsAuthenticatedGuard]
+  },
+
   {
     path: 'my_cards',
     title: 'Mis tarjetas',
@@ -51,7 +60,8 @@ export const routes: Routes = [
       }
     ]
   },
-/*
+
+  /*
   {
     path: 'test',
     title: 'Grafics test',
@@ -59,17 +69,8 @@ export const routes: Routes = [
     data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard]
   },
-
-  /*
-  TODO: Generar página de servicios y de estadísticas
-  {
-    path: 'services_and_subscriptions',
-    title: 'Servicios y suscripciones',
-    loadComponent: () => import('./layouts/smart-control-layout/smart-control-layout'),
-    data: { mode: 'require-auth', onMenu: true },
-    canMatch: [IsAuthenticatedGuard]
-  },
   */
+
   {
     path: 'statistics',
     title: 'Estadísticas',

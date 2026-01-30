@@ -69,8 +69,10 @@
           <legend class="fieldset-legend">Tipo plan de pago</legend>
           <select #paymentPlan class="select w-full" formControlName="paymentPlanType">
             <option disabled selected value="">Seleccione un tipo</option>
-            @for (option of formUtils.PaymentPlanOptions; track $index) {
-            <option [value]="option.value">{{option.label}}</option>
+            @for (option of formUtils.PaymentPlanOptions; track option.value) {
+              @if (option.value !== 'default') {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
             }
           </select>
         </div>

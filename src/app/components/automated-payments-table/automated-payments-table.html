@@ -1,0 +1,104 @@
+<div class="flex justify-center py-5">
+  <div class="container rounded-box shadow-md border border-base-200 bg-white ">
+    <div class="px-4 pt-2 text-xs font-semibold opacity-90 tracking-wide flex flex-row justify-between items-center">
+      <p>Domiciliaciones y cargos automáticos</p>
+    </div>
+    <div class="divider m-0"></div>
+
+    <table class="table">
+      <tbody>
+        @for (payment of paymentsList(); track payment.id) {
+        @let paymentPlanType = payment.periodicTransaction?.paymentPlanType;
+        <tr class="cursor-pointer" onclick="movementDetail.showModal()"  (click)="onSelectedMovement(payment)" >
+          <td>
+            <div class="flex items-center gap-3">
+              @if (paymentPlanType === 'installment') {
+                <span [innerHTML]="iconsService.getSvgIcon('INSTALLMENT_PAYMENT')"></span>
+              } @else {
+                <span [innerHTML]="iconsService.getSvgIcon('RECURRING_PAYMENT')"></span>
+              }
+              <div>
+                <div class="font-bold">{{payment.title}}</div>
+                <div class="text-sm opacity-50">{{payment.description}}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="badge badge-soft badge-info">
+              <span [innerHTML]="iconsService.getSvgIcon('CARD')"></span>
+              {{payment.paymentInfo.title}}
+            </div>
+            <br/>
+            <span class="badge badge-ghost badge-sm">{{formUtils.paymentPlanTranslations[paymentPlanType ?? 'default']}}</span>
+            @if (paymentPlanType === 'recurringPayment') {
+              <div class="badge badge-soft" [class]="payment.periodicTransaction?.isActive ? 'badge-success' : 'badge-error'">
+                <span>{{payment.periodicTransaction?.isActive ? 'Activo' : 'Inactivo'}}</span>
+              </div>
+            }
+
+          </td>
+          <td>
+            @if (paymentPlanType === 'installment') {
+              <p>Plazo: <span class="font-bold">{{payment.periodicTransaction?.installment?.total}} meses</span></p>
+              <p>Por: <span class="font-bold">{{(+payment.amount/ payment.periodicTransaction?.installment?.total!)  | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span></p>
+
+            } @else{
+              <p>Día de cobro: <span class="font-bold">Cada {{payment.periodicTransaction?.every}}</span></p>
+            }
+          </td>
+          <td>
+            <span class="font-bold">{{payment.amount | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
+          </tr>
+        } @empty {
+          <div class="flex flex-col justify-center items-center rounded py-5">
+            @if(monthOffset() === 0){
+              <p class="text-3xl font-semibold text-black">No hay movimientos</p>
+              <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
+              <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
+                Movimiento
+              </button>
+            } @else{
+              <p class="text-xl font-semibold text-black">No hay movimientos para este periodo</p>
+            }
+          </div>
+        }
+      </tbody>
+    </table>
+
+    <!-- <pagination [pageSize]="pageSize()" [currentPage]="currentPage()" [totalItems]="totalItems()" (pageSelected)="currentPage.set($event)"/> -->
+
+  </div>
+</div>
+
+
+<dialog #movementDetail id="movementDetail" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-circle btn-ghost absolute left-1 top-5">✕</button>
+    </form>
+    <h3 class="text-lg font-bold ml-4">Detalle de movimiento</h3>
+
+    <div class="dropdown dropdown-end absolute right-2 top-4">
+      <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+        <span [innerHTML]="iconsService.getSvgIcon('OPTION')"></span>
+      </div>
+      <div tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 shadow-md border border-base-200 p-2">
+        <ul>
+          <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost" [routerLink]="['/register_transaction', selectedMovement()?.id]">
+            <span [innerHTML]="iconsService.getSvgIcon('EDIT')"></span>
+            <span class="m-2">Editar</span>
+          </li>
+          <!-- <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost text-error" (click)="onDeleteMovement(selectedMovement()!.id ?? '')">
+            <span [innerHTML]="iconsService.getSvgIcon('DELETE')"></span>
+            <span class="m-2">Eliminar</span>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+
+    <movement-detail-info [detailData]="selectedMovement()"/>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

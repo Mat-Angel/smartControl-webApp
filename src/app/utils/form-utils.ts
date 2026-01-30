@@ -123,7 +123,8 @@ export class FormUtils {
 
   static paymentPlanTranslations: Record<PaymentPlan, string> = {
     [PaymentPlan.recurringPayment]: 'Pago Automatico',
-    [PaymentPlan.installment]: 'Pago a Meses'
+    [PaymentPlan.installment]: 'Pago a Meses',
+    [PaymentPlan.default]: 'Plan no definido',
   };
 
   static PaymentPlanOptions = Object.values(PaymentPlan).map((value) => ({
