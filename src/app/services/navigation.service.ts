@@ -20,12 +20,12 @@ export class NavigationService {
   saveOriginRoute(optionalUrl?: string){
 
     if (optionalUrl){
-      console.log('Guardando optionalUrl', optionalUrl);
+      //console.log('Guardando optionalUrl', optionalUrl);
       this._originUrl.set(optionalUrl);
       return;
     }
 
-    console.log('Guardo originRoute', this.router.url);
+    //console.log('Guardo originRoute', this.router.url);
     if (this.router.url === '/' || this.router.url === '' ) return;
     this._originUrl.set(this.router.url);
   }

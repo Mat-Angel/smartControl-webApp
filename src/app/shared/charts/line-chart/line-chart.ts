@@ -31,8 +31,6 @@ export class LineChart {
 
   ngAfterViewInit() {
     if (document.getElementById("labels-chart") && typeof ApexCharts !== 'undefined') {
-      console.log('logChart');
-
       this.chart = new ApexCharts(this.labelsChartRef.nativeElement, this.options);
       this.chart.render();
     }

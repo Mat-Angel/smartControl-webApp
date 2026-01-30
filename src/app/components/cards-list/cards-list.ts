@@ -23,7 +23,7 @@ export class CardsList {
   srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
 
   selectCard(cardInfo: PaymentMethod) {
-    console.log('selected card: ', cardInfo);
+    //console.log('selected card: ', cardInfo);
     this.selectedCard.emit(cardInfo);
   }
 

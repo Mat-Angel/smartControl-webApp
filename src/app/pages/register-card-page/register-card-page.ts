@@ -53,10 +53,6 @@ export default class RegisterCardPage {
     const isvalid = this.cardForm.valid;
 
     if (!isvalid) return;
-
-    console.log({ isvalid });
-    console.log('Pase validacion');
-
     const cardData = this.cardForm.value;
 
     const data: PaymentMethod = {

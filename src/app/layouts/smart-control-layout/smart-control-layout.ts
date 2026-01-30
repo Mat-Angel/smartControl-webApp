@@ -131,11 +131,7 @@ export default class SmartControlLayout {
       const periodInfo = { month: new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(periodDate), balance: totalAvailable }
       graphicData.push(periodInfo)
     }
-
-    console.log({ graphicData });
-
     return graphicData;
-
   })
 
 
