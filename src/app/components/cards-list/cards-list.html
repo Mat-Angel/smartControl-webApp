@@ -15,7 +15,7 @@
     <li class="list-row cursor-pointer hover:bg-blue-100" (click)="selectCard(card)">
         <div class="hover-3d col-span-1">
           <!-- content -->
-          <div class="card h-17 w-25 bg-black text-white rounded-lg text-shadow-md text-shadow-black brightness-100 saturate-75" [style.background-color]="card.accSettings.color">
+          <div class="card h-17 w-25 bg-black text-white rounded-lg text-shadow-md text-shadow-black brightness-100 saturate-75 bg-linear-to-b from-white/30 to-black/30" [style.background-color]="card.accSettings.color">
             <div class="card-body p-0 pl-1 py-2">
               <div class="flex justify-between mb-0">
                 <div class="font-semibold text-xs">{{card.accInfo.bankName}}</div>
