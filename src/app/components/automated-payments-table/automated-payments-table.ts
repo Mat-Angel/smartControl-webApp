@@ -13,6 +13,9 @@ import { MovementDetailInfo } from "../movement-detail-info/movement-detail-info
 })
 export class AutomatedPaymentsTable {
   paymentsList = input.required<Transactions[]>();
+  isLoading = input<boolean>(false);
+  isEmpty = input<boolean>(false);
+
   iconsService = inject(IconsService);
   readonly formUtils = FormUtils;
   selectedMovement = signal<Transactions | null>(null);

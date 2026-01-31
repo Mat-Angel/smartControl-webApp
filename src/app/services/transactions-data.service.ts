@@ -16,7 +16,7 @@ export class TransactionsDataService {
   private readonly _token = computed(() => this.authService.token());
   private readonly _userId = computed(() => this.authService.userId());
 
-  baseUrl = environment.firebaseUrl;
+  private readonly baseUrl = environment.firebaseUrl;
 
   loadTransactions(token: string, userId: string): Observable<Transactions[]> {
     if (!userId || !token) return of([]);

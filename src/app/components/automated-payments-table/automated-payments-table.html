@@ -5,65 +5,68 @@
     </div>
     <div class="divider m-0"></div>
 
-    <table class="table">
-      <tbody>
-        @for (payment of paymentsList(); track payment.id) {
-        @let paymentPlanType = payment.periodicTransaction?.paymentPlanType;
-        <tr class="cursor-pointer" onclick="movementDetail.showModal()"  (click)="onSelectedMovement(payment)" >
-          <td>
-            <div class="flex items-center gap-3">
-              @if (paymentPlanType === 'installment') {
-                <span [innerHTML]="iconsService.getSvgIcon('INSTALLMENT_PAYMENT')"></span>
-              } @else {
-                <span [innerHTML]="iconsService.getSvgIcon('RECURRING_PAYMENT')"></span>
+    <div class="max-w-full overflow-x-auto">
+      <table class="table min-w-max">
+        <tbody>
+          @for (payment of paymentsList(); track payment.id) {
+          @let paymentPlanType = payment.periodicTransaction?.paymentPlanType;
+          <tr class="cursor-pointer" onclick="movementDetail.showModal()"  (click)="onSelectedMovement(payment)" >
+            <td>
+              <div class="flex flex-row items-center  gap-2">
+                @if (paymentPlanType === 'installment') {
+                  <span [innerHTML]="iconsService.getSvgIcon('INSTALLMENT_PAYMENT')"></span>
+                } @else {
+                  <span [innerHTML]="iconsService.getSvgIcon('RECURRING_PAYMENT')"></span>
+                }
+                <div class="">
+                  <div class="font-bold">{{payment.title}}</div>
+                  <div class="text-sm opacity-50">{{payment.description}}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="badge badge-soft badge-info">
+                <span [innerHTML]="iconsService.getSvgIcon('CARD')"></span>
+                {{payment.paymentInfo.title}}
+              </div>
+              <br/>
+              <span class="badge badge-ghost badge-sm">{{formUtils.paymentPlanTranslations[paymentPlanType ?? 'default']}}</span>
+              @if (paymentPlanType === 'recurringPayment') {
+                <div class="badge badge-soft" [class]="payment.periodicTransaction?.isActive ? 'badge-success' : 'badge-error'">
+                  <span>{{payment.periodicTransaction?.isActive ? 'Activo' : 'Inactivo'}}</span>
+                </div>
               }
-              <div>
-                <div class="font-bold">{{payment.title}}</div>
-                <div class="text-sm opacity-50">{{payment.description}}</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="badge badge-soft badge-info">
-              <span [innerHTML]="iconsService.getSvgIcon('CARD')"></span>
-              {{payment.paymentInfo.title}}
-            </div>
-            <br/>
-            <span class="badge badge-ghost badge-sm">{{formUtils.paymentPlanTranslations[paymentPlanType ?? 'default']}}</span>
-            @if (paymentPlanType === 'recurringPayment') {
-              <div class="badge badge-soft" [class]="payment.periodicTransaction?.isActive ? 'badge-success' : 'badge-error'">
-                <span>{{payment.periodicTransaction?.isActive ? 'Activo' : 'Inactivo'}}</span>
-              </div>
-            }
 
-          </td>
-          <td>
-            @if (paymentPlanType === 'installment') {
-              <p>Plazo: <span class="font-bold">{{payment.periodicTransaction?.installment?.total}} meses</span></p>
-              <p>Por: <span class="font-bold">{{(+payment.amount/ payment.periodicTransaction?.installment?.total!)  | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span></p>
+            </td>
+            <td>
+              @if (paymentPlanType === 'installment') {
+                <p>Plazo: <span class="font-bold">{{payment.periodicTransaction?.installment?.total}} meses</span></p>
+                <p>Por: <span class="font-bold">{{(+payment.amount/ payment.periodicTransaction?.installment?.total!)  | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span></p>
 
-            } @else{
-              <p>Día de cobro: <span class="font-bold">Cada {{payment.periodicTransaction?.every}}</span></p>
-            }
-          </td>
-          <td>
-            <span class="font-bold">{{payment.amount | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
-          </tr>
-        } @empty {
-          <div class="flex flex-col justify-center items-center rounded py-5">
-            @if(monthOffset() === 0){
-              <p class="text-3xl font-semibold text-black">No hay movimientos</p>
-              <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
-              <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
-                Movimiento
-              </button>
-            } @else{
-              <p class="text-xl font-semibold text-black">No hay movimientos para este periodo</p>
-            }
-          </div>
-        }
-      </tbody>
-    </table>
+              } @else{
+                <p>Día de cobro: <span class="font-bold">Cada {{payment.periodicTransaction?.every}}</span></p>
+              }
+            </td>
+            <td>
+              <span class="font-bold">{{payment.amount | currency:'MXN' : "symbol-narrow" : "1.2-2"}}</span>
+            </tr>
+          } @empty {
+            <div class="flex flex-col justify-center items-center rounded py-5">
+              @if(monthOffset() === 0){
+                <p class="text-3xl font-semibold text-black">No hay movimientos</p>
+                <p class="text-xl  text-black">¿Deseas comenzar a registrar tus movimientos?</p>
+                <button class="btn btn-link" [routerLink]="['/register_transaction']">Registrar
+                  Movimiento
+                </button>
+              } @else{
+                <p class="text-xl font-semibold text-black">No hay movimientos para este periodo</p>
+              }
+            </div>
+          }
+        </tbody>
+      </table>
+
+    </div>
 
     <!-- <pagination [pageSize]="pageSize()" [currentPage]="currentPage()" [totalItems]="totalItems()" (pageSelected)="currentPage.set($event)"/> -->
 

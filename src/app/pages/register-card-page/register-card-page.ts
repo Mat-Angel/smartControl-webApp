@@ -8,11 +8,14 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsDataService } from '@services/transactions-data.service';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { AlertService } from '@shared/alert-message/alert.service';
+import { Utils } from '../../utils/utils';
+import { IconsService } from '@services/icons.service';
 
 @Component({
   selector: 'app-register-card-page',
   imports: [FormTextHelperComponent, ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './register-card-page.html',
+
 })
 export default class RegisterCardPage {
   private fb = inject(FormBuilder);
@@ -21,9 +24,10 @@ export default class RegisterCardPage {
   private alertService = inject(AlertService);
   private router = inject(Router);
 
-  formUtils = FormUtils;
+  readonly iconsService = inject(IconsService);
+  readonly formUtils = FormUtils;
+  readonly utils = Utils;
 
-  colors = ['green', 'red', 'blue', 'gray', 'gold', 'black'];
 
   cardForm: FormGroup = this.fb.group({
     paymentType: ['', [Validators.required]],
@@ -34,7 +38,7 @@ export default class RegisterCardPage {
     creditLine: ['', [Validators.min(0.01), Validators.maxLength(14)]],
     cutoffDay: [''],
     daysToPay: [''],
-    color: ['']
+    color: ['', [Validators.required]]
   });
 
   onChangePaymenTypeOptions(value: string) {

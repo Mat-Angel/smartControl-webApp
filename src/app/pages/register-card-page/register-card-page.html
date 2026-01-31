@@ -9,10 +9,11 @@
         <fieldset class="fieldset grid md:grid-cols-4 lg:grid-cols-6 mx-5">
           <div class="flex flex-col col-span-2 mr-3">
             <legend class="fieldset-legend">Tipo de tarjeta</legend>
-            <select #paymentType class="select w-full" formControlName="paymentType" (change)="onChangePaymenTypeOptions(paymentType.value)">
+            <select #paymentType class="select w-full" formControlName="paymentType"
+              (change)="onChangePaymenTypeOptions(paymentType.value)">
               <option disabled selected value="">Seleccione tipo</option>
               @for (option of formUtils.PaymentTypeOptions; track $index) {
-                <option [value]="option.value" class="capitalize">{{option.label}}</option>
+              <option [value]="option.value" class="capitalize">{{option.label}}</option>
               }
             </select>
             <form-text-helper [form]="cardForm" fieldName="paymentType"></form-text-helper>
@@ -37,40 +38,55 @@
           </div>
 
           @if (cardForm.controls['paymentType'].value === "credit") {
-            <div class="flex flex-col col-span-2 mr-3">
-              <legend class="fieldset-legend">Línea de crédito total</legend>
-              <label class="input w-full">
-                $ <input type="text" placeholder="Ingrese línea de crédito" formControlName="creditLine" mask="separator.2"
-                         thousandSeparator="," decimalMarker="." maxlength="14"/>
-              </label>
-              <form-text-helper [form]="cardForm" fieldName="creditLine"></form-text-helper>
-            </div>
-
-            <div class="flex flex-col col-span-2 mr-3">
-              <legend class="fieldset-legend">Día de corte de la tarjeta</legend>
-              <input type="number" class="input w-full" placeholder="Ingrese día de corte" min="1" max="31"
-                     formControlName="cutoffDay" />
-              <form-text-helper [form]="cardForm" fieldName="cutoffDay"></form-text-helper>
-            </div>
-
-            <div class="flex flex-col col-span-2 mr-3">
-              <legend class="fieldset-legend">Días para pago de tarjeta (Periodo de gracia)</legend>
-              <input type="number" class="input w-full" placeholder="Ingrese días para pago de tarjeta" min="1" max="31"
-                     formControlName="daysToPay" />
-              <form-text-helper [form]="cardForm" fieldName="daysToPay"></form-text-helper>
-            </div>
-          }
-        </fieldset>
-
-        <div class="mt-5 ml-5">
-          <h1 class="text-xl font-bold ">Seleccione color de tarjeta</h1>
-          <div class="join join-horizontal mt-5">
-            @for (color of colors; track $index) {
-              <input type="radio" name="color" class="btn theme-controller join-item " formControlName="color" [aria-label]="color" [value]="color" />
-            }
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Línea de crédito total</legend>
+            <label class="input w-full">
+              $ <input type="text" placeholder="Ingrese línea de crédito" formControlName="creditLine" mask="separator.2" thousandSeparator="," decimalMarker="." maxlength="14" />
+            </label>
+            <form-text-helper [form]="cardForm" fieldName="creditLine"></form-text-helper>
           </div>
-        </div>
 
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Día de corte de la tarjeta</legend>
+            <input type="number" class="input w-full" placeholder="Ingrese día de corte" min="1" max="31" formControlName="cutoffDay" />
+            <form-text-helper [form]="cardForm" fieldName="cutoffDay"></form-text-helper>
+          </div>
+
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Días para pago de tarjeta (Periodo de gracia)</legend>
+            <input type="number" class="input w-full" placeholder="Ingrese días para pago de tarjeta" min="1" max="31" formControlName="daysToPay" />
+            <form-text-helper [form]="cardForm" fieldName="daysToPay"></form-text-helper>
+          </div>
+          }
+          <div class="flex flex-col col-span-2 mr-3">
+            <legend class="fieldset-legend">Color de tarjeta</legend>
+            <select #paymentType class="select w-full" formControlName="color">
+              <option disabled selected value="">Seleccione color</option>
+              @for (color of utils.colors; track $index) {
+              <option [value]="color" class="capitalize font-bold"><span class="status status-xl border" [style.background-color]="color">
+              </span>{{color}}</option>
+              }
+            </select>
+            <form-text-helper [form]="cardForm" fieldName="color"></form-text-helper>
+          </div>
+          <div class="hover-3d  mt-5 md:mt-0">
+            <!-- content -->
+            <div class="card aspect-[1.586/1] h-17 bg-black text-white rounded-lg text-shadow-md text-shadow-black brightness-100 saturate-75 bg-linear-to-b from-white/30 to-black/30" [style.background-color]="cardForm.controls['color'].value ?? 'white'">
+              <div class="card-body p-0 pl-1 py-1">
+                <div class="flex justify-between mb-0">
+                  <div class="font-semibold text-xs"> {{cardForm.controls['bankName'].value ? cardForm.controls['bankName'].value : 'Banco'}}</div>
+                </div>
+                <div class="flex justify-between mb-0">
+                  <div class="w-4 fixed inset-0 text-yellow-500 top-7 left-2"><span [innerHTML]="iconsService.getSvgIcon('CHIP')"></span></div>
+                </div>
+                <div class="h-7 w-7 ml-17">
+                  <img [src]="utils.getSvgImage('MAT_WHITE_ICON')" alt="icon" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </fieldset>
       </form>
 
       <div class="grid grid-flow-col justify-items-end my-5">

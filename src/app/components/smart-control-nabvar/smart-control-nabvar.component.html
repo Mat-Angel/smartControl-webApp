@@ -57,11 +57,11 @@
   </div> -->
 
   <section class="block sm:hidden">
-    <div class="dock bg-linear-to-b from-blue-900 to-blue-950 text-white">
+    <div class="dock bg-linear-to-b from-blue-900 to-blue-950 text-white overflow-x-auto overflow-y-hidden">
       @for (route of menuRoutes; track $index) {
       <button [routerLink]="['/', route.path]" routerLinkActive="text-cyan-400">
         <span class="inline-flex" [innerHTML]="iconsService.getSvgIcon(`MENU_${route.path}`)"></span>
-        <span class="dock-label">{{route.title}}</span>
+        <span class="dock-label tracking-tight truncate">{{route.title}}</span>
       </button>
       }
     </div>

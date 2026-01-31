@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { AutomatedPaymentsTable } from "../../components/automated-payments-table/automated-payments-table";
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../auth/services/auth.service';
 import { TransactionsDataService } from '@services/transactions-data.service';
 import { of } from 'rxjs';
+import { LoadingScreenService } from '@shared/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'app-automated-payments-page',
@@ -13,6 +14,7 @@ import { of } from 'rxjs';
 export default class AutomatedPaymentsPage {
   authService = inject(AuthService);
   transactionsDataService = inject(TransactionsDataService);
+  loadingScreenService = inject(LoadingScreenService);
 
   transactionsResource = rxResource({
     params: () => ({ token: this.authService.token(), userId: this.authService.userId() }),
@@ -20,6 +22,10 @@ export default class AutomatedPaymentsPage {
       if (!params.token || !params.userId) return of([]);
       return this.transactionsDataService.loadAutomatedPayments(params.token, params.userId);
     },
+  });
+
+    setLoadingStateEffect = effect(() => {
+    this.loadingScreenService.setLoadingState(this.transactionsResource.isLoading())
   });
 
 
