@@ -4,7 +4,7 @@
     @for (item of graphicData(); track $index) {
       <div class="flex items-center p-0 gap-0">
         <span class="w-10  text-sm opacity-70 capitalize">{{item.month}}</span>
-        <progress class="progress progress-info w-45" [class.bg-red-200]="item.balance<0" [value]="item.balance" [max]="item.Income"></progress>
+        <progress class="progress progress-info" [class.bg-red-200]="item.balance<0" [value]="item.balance" [max]="item.Income"></progress>
         <span class="w-10 mx-2 text-right text-sm"[class.text-error]="item.balance<0">{{item.balance | currency}}</span>
       </div>
     }
