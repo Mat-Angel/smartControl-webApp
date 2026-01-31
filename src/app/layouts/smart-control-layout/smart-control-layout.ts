@@ -93,10 +93,11 @@ export default class SmartControlLayout {
   transactionsByMonth = computed<Transactions[]>(() => {
     const transactions = this.transactionsResource.value() ?? [];
 
-    const hoy = new Date();
-    hoy.setMonth(hoy.getMonth() - this.monthOffset());
-    const currentMonth = hoy.getMonth();        // 0-11
-    const currentYear = hoy.getFullYear();    // ej: 2025
+    const now = new Date();
+    now.setDate(1);
+    now.setMonth(now.getMonth() - this.monthOffset());
+    const currentMonth = now.getMonth();        // 0-11
+    const currentYear = now.getFullYear();    // ej: 2025
 
     return transactions.filter(item =>
       this.isSameMonth(item.operationDate, currentMonth, currentYear))
@@ -128,7 +129,7 @@ export default class SmartControlLayout {
 
       const totalAvailable = Number((totalIncome - totalOutgoing).toFixed(2));
 
-      const periodInfo = { month: new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(periodDate), balance: totalAvailable }
+      const periodInfo = { month: new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(periodDate), balance: totalAvailable, Income: totalIncome , Outgoing: totalOutgoing  }
       graphicData.push(periodInfo)
     }
     return graphicData;
