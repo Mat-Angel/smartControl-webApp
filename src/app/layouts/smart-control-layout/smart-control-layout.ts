@@ -16,6 +16,8 @@ import { MonthsGraphic } from "@shared/charts/months-graphic/months-graphic";
 export type GraphicPoint = {
   month: string;
   balance: number;
+  Income: number;
+  Outgoing: number;
 };
 
 
