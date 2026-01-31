@@ -84,9 +84,9 @@ export default class SmartControlLayout {
   });
 
 
-  private isSameMonth(fechaStr: string, monthIndex: number, year: number): boolean {
-    // fechaStr = "2025-11-02"
-    const [y, m] = fechaStr.split('-').map(Number); // y = 2025, m = 11
+  private isSameMonth(dateStr: string, monthIndex: number, year: number): boolean {
+    // dateStr = "2025-11-02"
+    const [y, m] = dateStr.split('-').map(Number); // y = 2025, m = 11
     return y === year && (m - 1) === monthIndex;
   }
 
@@ -95,11 +95,11 @@ export default class SmartControlLayout {
 
     const hoy = new Date();
     hoy.setMonth(hoy.getMonth() - this.monthOffset());
-    const mesActual = hoy.getMonth();        // 0-11
-    const anioActual = hoy.getFullYear();    // ej: 2025
+    const currentMonth = hoy.getMonth();        // 0-11
+    const currentYear = hoy.getFullYear();    // ej: 2025
 
     return transactions.filter(item =>
-      this.isSameMonth(item.operationDate, mesActual, anioActual))
+      this.isSameMonth(item.operationDate, currentMonth, currentYear))
       .sort((a, b) => b.operationDate.localeCompare(a.operationDate));
   })
 
@@ -109,14 +109,14 @@ export default class SmartControlLayout {
 
     for (let i = 0; i < 3; i++) {
       const periodDate = new Date();
+      periodDate.setDate(1);
       periodDate.setMonth(periodDate.getMonth() - i);
-      const mesActual = periodDate.getMonth();        // 0-11
-      const anioActual = periodDate.getFullYear();    // ej: 2025
+      const currentMonth = periodDate.getMonth();        // 0-11
+      const currentYear = periodDate.getFullYear();    // ej: 2025
 
       const transactionInfo = transactions.filter(item =>
-        this.isSameMonth(item.operationDate, mesActual, anioActual))
+        this.isSameMonth(item.operationDate, currentMonth, currentYear))
         .sort((a, b) => b.operationDate.localeCompare(a.operationDate));
-
 
       const totalIncome: number = transactionInfo!
         .filter(t => t.transactionType === 'income')
