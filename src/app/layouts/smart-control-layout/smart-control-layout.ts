@@ -148,7 +148,6 @@ export default class SmartControlLayout {
 
 
   deleteMovement(id: string) {
-    console.log('ID para eliminar: ', id);
     return this.transactionsDataService.deleteTransaction(id).subscribe({
       next: (response) => {
         this.transactionsResource.reload();

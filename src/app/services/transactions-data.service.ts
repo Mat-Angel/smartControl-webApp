@@ -148,6 +148,15 @@ export class TransactionsDataService {
   }
 
 
+  deleteAutomatedPaymen(id: string) {
+    if (!this._token() || !this._userId()) return of([]);
+    return this.http.delete(`${this.baseUrl}${this._userId()}/smartControl/automatedPayments/${id}.json?auth=${this._token()}`)
+      .pipe(tap(() => {
+        this._automatedPayments.update(tx => tx.filter(t => t.id !== id));
+      }));
+  }
+
+
   loadCards(token: string, userId: string): Observable<PaymentMethod[]> {
     if (!userId || !token) return of([]);
 
