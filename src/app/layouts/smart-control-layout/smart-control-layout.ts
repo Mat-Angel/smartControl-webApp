@@ -138,9 +138,6 @@ export default class SmartControlLayout {
   })
 
 
-
-
-
   onLoadMovementByPeriod(period: number) {
     this.monthOffset.set(period);
     this.goToTableSection();
