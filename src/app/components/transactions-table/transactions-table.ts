@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { Transactions } from '../../interfaces/transactions.interface';
 import { CurrencyPipe, I18nPluralPipe } from '@angular/common';
 import { RouterLink } from "@angular/router";
@@ -34,6 +34,7 @@ export class TransactionsTable {
   isEmpty = input<boolean>(false);
   deleteMovement = output<string>();
 
+
   monthMap = signal({
     '=0': 'actual',
     '=1': 'anterior',
@@ -61,6 +62,12 @@ export class TransactionsTable {
 
     return items.slice(startIndex, endIndex);
   });
+
+  resetcurrentPageEffect = effect(() => {
+    this.monthOffset();
+    this.currentPage.set(1);
+  });
+
 
   onSelectedMovement(transaction: Transactions) {
     //console.log('transaction selected: ', { transaction });
