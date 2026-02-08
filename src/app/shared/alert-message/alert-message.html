@@ -1,7 +1,7 @@
 
 @if (alertService.hasAlert()) {
   <div class="flex justify-center animate-fadeIn">
-    <div role="alert" class="alert fixed top-18 z-10 w-auto" [class.alert-success]="alertService.alertClass() === 'success'" [class.alert-warning]="alertService.alertClass() === 'warning'" [class.alert-error]="alertService.alertClass() === 'error'">
+    <div role="alert" class="alert fixed top-18 z-90 w-auto" [class.alert-success]="alertService.alertClass() === 'success'" [class.alert-warning]="alertService.alertClass() === 'warning'" [class.alert-error]="alertService.alertClass() === 'error'">
       @switch(alertService.alertClass()){
         @case ('success') {
           <span [innerHTML]="iconsService.getSvgIcon('SUCCESS')"></span>
