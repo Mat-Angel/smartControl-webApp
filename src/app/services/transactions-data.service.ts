@@ -79,6 +79,13 @@ export class TransactionsDataService {
   }
 
 
+  getCardById(transactionId: string): Observable<PaymentMethod | null> {
+    if (!this._token() || !this._userId()) return of(null);
+
+    return this.http.get<PaymentMethod | null>(`${this.baseUrl}${this._userId()}/smartControl/paymentMethods/${transactionId}.json?auth=${this._token()}`)
+  }
+
+
   getPaymentById(transactionId: string): Observable<Transactions | null> {
     if (!this._token() || !this._userId()) return of(null);
 
@@ -138,6 +145,19 @@ export class TransactionsDataService {
   }
 
 
+  updateCard(card: PaymentMethod, cardId: string) {
+    if (!this._token() || !this._userId()) return of([]);
+
+    return this.http.put(`${this.baseUrl}${this._userId()}/smartControl/paymentMethods/${cardId}.json?auth=${this._token()}`, card)
+      .pipe(
+        tap(resp => {
+          this._paymentMethods.update(crd => crd.map(t => t.accInfo.id === cardId ? card : t));
+
+        })
+      );
+  }
+
+
   deleteTransaction(id: string) {
     if (!this._token() || !this._userId()) return of([]);
 
@@ -157,6 +177,15 @@ export class TransactionsDataService {
   }
 
 
+  deleteCard(id: string) {
+    if (!this._token() || !this._userId()) return of([]);
+    return this.http.delete(`${this.baseUrl}${this._userId()}/smartControl/paymentMethods/${id}.json?auth=${this._token()}`)
+      .pipe(tap(() => {
+        this._paymentMethods.update(tx => tx.filter(t => t.accInfo.id !== id));
+      }));
+  }
+
+
   loadCards(token: string, userId: string): Observable<PaymentMethod[]> {
     if (!userId || !token) return of([]);
 
@@ -167,7 +196,7 @@ export class TransactionsDataService {
         // Transformar el objeto de Firebase a un array
         map(resp => {
           if (!resp) return [];
-          return Object.entries(resp).map(([id, data]) => ({ ...data, id: id, })) as PaymentMethod[];   //"id" clave generada por Firebase
+          return Object.entries(resp).map(([id, data]) => ({ ...data, accInfo: { ...data.accInfo, id }, })) as PaymentMethod[];   //"id" clave generada por Firebase
         }),
         tap(resp => {
           this._paymentMethods.set(resp);

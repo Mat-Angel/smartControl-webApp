@@ -12,6 +12,7 @@
                     [isEmpty]="!cardsResource.value()"
                     [isLoading]="cardsResource.isLoading()"
                     (selectedCard)="cardInfo.set($event); goToSection()"
+                    (deleteCard)="deleteCard($event)"
          />
       </div>
 

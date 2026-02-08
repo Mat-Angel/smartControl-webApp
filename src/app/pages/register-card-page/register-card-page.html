@@ -1,7 +1,7 @@
-<div class="fixed inset-0 bg-black/60 z-50 flex flex-col items-center justify-center">
-  <div class="min-h-[calc(100vh-4rem)] w-full md:w-[80%] flex justify-center">
+<div class="flex justify-center pb-20 sm:pb-5 px-1">
+  <div class="w-full md:w-[80%] flex justify-center">
     <div class="container rounded-box shadow-md border-2 border-base-200 bg-white mt-5 overflow-y-auto">
-      <h1 class="text-3xl font-bold mt-5 ml-5">Registrar Tarjeta</h1>
+      <h1 class="text-3xl font-bold mt-5 ml-5">{{this.cardData() ? 'Editar' : 'Registrar'}} Tarjeta</h1>
       <div class="divider"></div>
       <h1 class="text-xl font-bold mt-5 ml-5">Datos generales</h1>
 

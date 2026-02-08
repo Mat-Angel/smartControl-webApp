@@ -180,7 +180,7 @@
       </fieldset>
       @if (formUtils.isValidField(paymentInfoForm, "paymentType") && availablePaymentTypes().length === 0) {
         <span class="font-semibold mx-5 text-sm">
-          No hay tarjetas registradas ¿Desea <a [routerLink]="['/my_cards/register_card']" class="link text-success px-0">Registrar tarjeta</a>?
+          No hay tarjetas registradas ¿Desea <a [routerLink]="['/register_card']" class="link text-success px-0">Registrar tarjeta</a>?
         </span>
       }
     </form>

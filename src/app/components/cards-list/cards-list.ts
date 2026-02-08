@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, ElementRef, inject, input, output, viewChild } from '@angular/core';
 import { PaymentMethod } from '@interfaces/payment-methods.interface';
 import { RouterLink } from "@angular/router";
 import { FormUtils } from '../../utils/form-utils';
@@ -16,16 +16,18 @@ export class CardsList {
   errorMessage = input<string | unknown | null>();
   isLoading = input<boolean>(false);
   isEmpty = input<boolean>(false);
+  selectedCard = output<PaymentMethod>();
+  deleteCard = output<string>();
   formUtils = FormUtils;
 
-  selectedCard = output<PaymentMethod>();
-
-  srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
+  readonly srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
 
   selectCard(cardInfo: PaymentMethod) {
-    //console.log('selected card: ', cardInfo);
     this.selectedCard.emit(cardInfo);
   }
 
+  onDeleteCard(id: string) {
+    this.deleteCard.emit(id);
+  }
 
 }

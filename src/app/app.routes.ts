@@ -52,25 +52,23 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/my-cards-page/my-cards-page'),
     data: { mode: 'require-auth', onMenu: true },
     canMatch: [IsAuthenticatedGuard],
-    children: [
-      {
-        path: 'register_card',
-        title: 'Registrar tarjeta',
-        loadComponent: () => import('./pages/register-card-page/register-card-page'),
-      }
-    ]
   },
-
-  /*
   {
-    path: 'test',
-    title: 'Grafics test',
-    loadComponent: () => import('./pages/Test/GraficsTest/GraficsTest'),
-    data: { mode: 'require-auth', onMenu: true },
-    canMatch: [IsAuthenticatedGuard]
-  },
-  */
+    path: 'register_card',
+    title: 'Registrar tarjeta',
+    loadComponent: () => import('./pages/register-card-page/register-card-page'),
+    data: { mode: 'require-auth', onMenu: false },
+    canMatch: [IsAuthenticatedGuard],
 
+
+  },
+  {
+    path: 'register_card/:id',
+    title: 'Registrar tarjeta',
+    data: { mode: 'require-auth', onMenu: false },
+    loadComponent: () => import('./pages/register-card-page/register-card-page'),
+    canMatch: [IsAuthenticatedGuard],
+  },
   {
     path: 'statistics',
     title: 'Estadísticas',

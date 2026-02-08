@@ -1,11 +1,10 @@
-
 <div class="bg-blue-50 rounded-box shadow overflow-auto">
   <div class="flex flex-row justify-between px-4 pt-3 text-xs font-semibold">
-      <div>Listado de Tarjetas</div>
-      <button class="btn btn-xs btn-ghost">
-        <span [innerHTML]="iconsService.getSvgIcon('FILTER')"></span>
-        Filtrar
-      </button>
+    <div>Listado de Tarjetas</div>
+    <button class="btn btn-xs btn-ghost">
+      <span [innerHTML]="iconsService.getSvgIcon('FILTER')"></span>
+      Filtrar
+    </button>
   </div>
 
   <div class="divider m-0"></div>
@@ -13,39 +12,59 @@
   <ul class="list max-h-94 overflow-y-auto [&_.list-row:after]:border-base-300">
     @for (card of cardsData(); track $index) {
     <li class="list-row cursor-pointer hover:bg-blue-100 py-1" (click)="selectCard(card)">
-        <div class="hover-3d col-span-1">
-          <!-- content -->
-          <div class="card aspect-[1.586/1] h-17 bg-black text-white rounded-lg text-shadow-md text-shadow-black brightness-100 saturate-75 bg-linear-to-b from-white/30 to-black/30" [style.background-color]="card.accSettings.color">
-            <div class="card-body p-0 pl-1 py-1">
-              <div class="flex justify-between mb-0">
-                <div class="font-semibold text-xs">{{card.accInfo.bankName}}</div>
-              </div>
-              <div class="flex justify-between mb-0">
-                <div class="w-4 fixed inset-0 text-yellow-500 top-7 left-2"><span [innerHTML]="iconsService.getSvgIcon('CHIP')"></span></div>
-              </div>
-              <div class="h-7 w-7 ml-17">
-                <img [src]="srcMatIcon" alt="icon"/>
-              </div>
+      <div class="hover-3d col-span-1">
+        <!-- content -->
+        <div class="card aspect-[1.586/1] h-17 bg-black text-white rounded-lg text-shadow-md text-shadow-black brightness-100 saturate-75 bg-linear-to-b from-white/30 to-black/30"
+          [style.background-color]="card?.accSettings?.color ?? 'black'">
+          <div class="card-body p-0 pl-1 py-1">
+            <div class="flex justify-between mb-0">
+              <div class="font-semibold text-xs">{{card.accInfo.bankName}}</div>
+            </div>
+            <div class="flex justify-between mb-0">
+              <div class="w-4 fixed inset-0 text-yellow-500 top-7 left-2"><span [innerHTML]="iconsService.getSvgIcon('CHIP')"></span></div>
+            </div>
+            <div class="h-7 w-7 ml-17">
+              <img [src]="srcMatIcon" alt="icon" />
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="mt-2">
-          <div class="font-semibold uppercase">{{card.accInfo.productName}}</div>
-          <div class="text-xs font-semibold opacity-60">Tarjeta de {{formUtils.paymentTypeTranslations[card.accInfo.paymentType]}}</div>
+      <div class="mt-2">
+        <div class="font-semibold uppercase">{{card.accInfo.productName}}</div>
+        <div class="text-xs font-semibold opacity-60">Tarjeta de
+          {{formUtils.paymentTypeTranslations[card.accInfo.paymentType]}}</div>
+      </div>
+      <div class="dropdown dropdown-end" (click)="$event.stopPropagation();">
+        <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+          <span [innerHTML]="iconsService.getSvgIcon('OPTION')"></span>
         </div>
-      </li>
-    }@empty {
-            <li class="flex flex-col justify-center items-center rounded my-2">
-              <p class="font-semibold text-black">No hay tarjetas registradas</p>
-              <p class="  text-black">¿Deseas comenzar a registrar tus tarjetas?</p>
+        <div tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 shadow-md border border-base-200 p-2 w-40">
+          <ul>
+            <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost" [routerLink]="['/register_card', card.accInfo.id]">
+              <span [innerHTML]="iconsService.getSvgIcon('EDIT')"></span>
+              <span class="m-2">Editar</span>
             </li>
-          }
+            <li class="flex flex-row items-center justify-start cursor-pointer btn btn-ghost text-error" (click)="onDeleteCard(card.accInfo.id ?? '')">
+              <span [innerHTML]="iconsService.getSvgIcon('DELETE')"></span>
+              <span class="m-2">Eliminar</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    }
+    @empty {
+      <li class="flex flex-col justify-center items-center rounded my-2">
+        <p class="font-semibold text-black">No hay tarjetas registradas</p>
+        <p class="  text-black">¿Deseas comenzar a registrar tus tarjetas?</p>
+      </li>
+    }
   </ul>
 
   <div class="divider m-0"></div>
 
-  <div class="cursor-pointer rounded-lg hover:bg-blue-100 py-2" [routerLink]="['/my_cards/register_card']">
+  <div class="cursor-pointer rounded-lg hover:bg-blue-100 py-2" [routerLink]="['/register_card']">
     <div class="hover-3d flex flex-row items-center justify-start">
       <div class="flex items-center justify-center h-17 min-w-25 mx-4 text-black border-2 border-dashed rounded-lg">
         <div class="font-bold text-2xl"> + </div>
@@ -54,4 +73,3 @@
     </div>
   </div>
 </div>
-

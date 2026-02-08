@@ -217,7 +217,7 @@ loadTransactionById(movementId: string) {
     const paymentInfoData = this.paymentInfoForm.value;
 
     const data: Transactions = {
-      //id: UUIDv4(),
+      id: this.movementData() ? this.queryId() : '',
       title: transactionData?.title,
       description: transactionData?.description,
       amount: transactionData?.amount,
