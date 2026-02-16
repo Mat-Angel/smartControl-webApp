@@ -176,7 +176,7 @@ export class TransactionsTable {
     const bannerProps = doc.getImageProperties(banner);
     const SCLogoProps = doc.getImageProperties(SCLogo);
     const matLogoProps = doc.getImageProperties(matLogo);
-    doc.addImage(banner, 'png', 0, 0, docConfigs.pageWidth, bannerProps.height / docConfigs.pageHeight * 100);
+    doc.addImage(banner, 'png', 0, 0, docConfigs.pageWidth, bannerProps.height / docConfigs.pageHeight * 40);
     doc.addImage(SCLogo, 'PNG', 10, 7, SCLogoProps.width * .1, SCLogoProps.height * .1);
     doc.addImage(matLogo, 'png', 150, 7, matLogoProps.width * .09, matLogoProps.height * .09);
 
