@@ -24,7 +24,7 @@ export default class MyCardsPage {
   alertService = inject(AlertService);
   loadingScreenService = inject(LoadingScreenService);
   iconsService = inject(IconsService);
-  srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
+  srcMatIcon = Utils.getSvgImage('MAT_ICON');
   formUtils = FormUtils;
 
   @ViewChild('card3D', { static: false }) card3D!: ElementRef<HTMLElement>;

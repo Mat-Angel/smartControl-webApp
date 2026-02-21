@@ -17,5 +17,5 @@ import { Utils } from '../../utils/utils';
 })
 export class LoadingScreen {
   loadingScreenService= inject(LoadingScreenService);
-  srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
+  srcMatIcon = Utils.getSvgImage('MAT_ICON');
 }

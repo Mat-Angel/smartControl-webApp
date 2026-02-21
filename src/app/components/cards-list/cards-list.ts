@@ -20,7 +20,7 @@ export class CardsList {
   deleteCard = output<string>();
   formUtils = FormUtils;
 
-  readonly srcMatIcon = Utils.getSvgImage('MAT_WHITE_ICON');
+  readonly srcMatIcon = Utils.getSvgImage('MAT_ICON');
 
   selectCard(cardInfo: PaymentMethod) {
     this.selectedCard.emit(cardInfo);

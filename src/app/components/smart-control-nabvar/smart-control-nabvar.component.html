@@ -2,7 +2,7 @@
   <div class="navbar flex justify-center bg-linear-to-b from-blue-900 to-blue-950 shadow-sm">
     <div class="container grid grid-cols-[1fr_auto_1fr] items-center">
       <a class="hidden sm:block justify-self-start" href="https://mat-angel.com" target="_blank" >
-        <img [src]="`${baseUrl}neon_mat_2025.png`" width="125" title="MAT Angel" draggable="false">
+        <img [src]="utils.getSvgImage('MAT_NEON_LOGO')" width="125" title="MAT Angel" draggable="false">
       </a>
 
       <!-- <label for="my-drawer-1" class="block sm:hidden text-white btn btn-ghost btn-xs justify-self-start">
@@ -10,11 +10,11 @@
       </label> -->
 
       <a href="https://mat-angel.com" target="_blank" class="block sm:hidden justify-self-start px-2">
-        <img [src]="utils.getSvgImage('MAT_WHITE_ICON')" width="40" title="SmartControl logo" draggable="false">
+        <img [src]="utils.getSvgImage('MAT_ICON')" width="40" title="SmartControl logo" draggable="false">
       </a>
 
       <a [routerLink]="['/movements']" class="justify-self-center">
-        <img [src]="`${baseUrl}smart-control/smartControl_color-logo.webp`" width="125" title="SmartControl logo" draggable="false">
+        <img [src]="utils.getSvgImage('SMARTCONTROL_LOGO')" width="125" title="SmartControl logo" draggable="false">
       </a>
       <profile-info class="justify-self-end"/>
     </div>
