@@ -24,7 +24,9 @@ export class Utils {
   } as const;
 
   static svgImage = {
-    'MAT_WHITE_ICON': 'mat_white_icon.svg'
+    'MAT_NEON_LOGO': 'mat_neon_logo.svg',
+    'MAT_ICON': 'mat_icon.svg',
+    'SMARTCONTROL_LOGO': 'smartcontrol_color.svg'
   } as const;
 
   static svgIcon = {
