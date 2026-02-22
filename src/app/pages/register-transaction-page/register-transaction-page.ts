@@ -251,7 +251,7 @@ loadTransactionById(movementId: string) {
           next: (response) => {
             this.alertService.showAlert('Se ha actualizado la transacción correctamente', 'success');
             //console.log('OK:', response);
-            this.router.navigate(['/movements']);
+            this.router.navigate(['/automated_payments']);
           },
           error: (err) => {
             this.alertService.showAlert('Hubo un problema al actualizar la transacción. Intente de nuevo', 'error');
@@ -280,7 +280,7 @@ loadTransactionById(movementId: string) {
         next: (response) => {
           this.alertService.showAlert('Se ha guardado la transacción correctamente', 'success');
           //console.log('OK:', response);
-          this.router.navigate(['/movements']);
+          this.router.navigate(['/automated_payments']);
         },
         error: (err) => {
           this.alertService.showAlert('Hubo un problema al guardar la transacción. Intente de nuevo', 'error');
