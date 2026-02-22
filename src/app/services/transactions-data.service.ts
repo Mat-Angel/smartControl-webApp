@@ -1,7 +1,7 @@
-import { computed, inject, Injectable, effect, signal } from '@angular/core';
+import { computed, inject, Injectable, effect, signal, Pipe } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, of, tap } from 'rxjs';
-import { Transactions } from '../interfaces/transactions.interface';
+import { map, Observable, of, tap, filter, switchMap } from 'rxjs';
+import { Payment, PaymentType, Transactions, TransactionType } from '../interfaces/transactions.interface';
 import { PaymentMethod } from '../interfaces/payment-methods.interface';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../auth/services/auth.service';
@@ -94,9 +94,17 @@ export class TransactionsDataService {
 
 
   saveTransaction(transaction: Transactions): Observable<FirebasePostResponse> {
+
+    console.log('que traigo en transaction? ', transaction);
+
     if (!this._token() || !this._userId()) return of();
     return this.http.post<FirebasePostResponse>(`${this.baseUrl}${this._userId()}/smartControl/transactions.json?auth=${this._token()}`, transaction)
       .pipe(
+        switchMap((resp) => {
+          console.log('que traigo en resp? ', resp);
+          this.updateCardBalance(transaction.paymentInfo, +transaction.amount, transaction.transactionType === TransactionType.outgoing ? 'credit' : 'debit');
+          return of(resp);
+        }),
         tap(resp => {
           this._transactions.update(txs => [...txs, { ...transaction, id: resp.name }]
             .sort((a, b) => b.operationDate.localeCompare(a.operationDate))
@@ -152,19 +160,27 @@ export class TransactionsDataService {
       .pipe(
         tap(resp => {
           this._paymentMethods.update(crd => crd.map(t => t.accInfo.id === cardId ? card : t));
-
         })
       );
   }
 
 
   deleteTransaction(id: string) {
+    const transaction = this._transactions().find(t => t.id === id);
     if (!this._token() || !this._userId()) return of([]);
 
     return this.http.delete(`${this.baseUrl}${this._userId()}/smartControl/transactions/${id}.json?auth=${this._token()}`)
-      .pipe(tap(() => {
-        this._transactions.update(tx => tx.filter(t => t.id !== id));
-      }));
+      .pipe(
+        switchMap((resp) => {
+          if (!transaction || !transaction.id) {
+            return of(undefined);
+          }
+          this.updateCardBalance(transaction.paymentInfo, +transaction.amount, transaction.transactionType === TransactionType.outgoing ? 'debit' : 'credit');
+          return of(resp);
+        }),
+        tap(() => {
+          this._transactions.update(tx => tx.filter(t => t.id !== id));
+        }));
   }
 
 
@@ -217,6 +233,27 @@ export class TransactionsDataService {
           );
         })
       );
+  }
 
+
+  updateCardBalance(paymentInfo: Payment, amount: number, transactionType: 'debit' | 'credit') {
+    const cardData = this._paymentMethods().find(card => card.accInfo.productName === paymentInfo.title);
+    console.log('Monto anterior: ', cardData?.balanceInfo.balance);
+    console.log({ cardData });
+
+    if (cardData && cardData.balanceInfo) {
+      if (cardData.accInfo.paymentType == PaymentType.credit) {
+        transactionType === 'credit'
+          ? cardData.balanceInfo.balance += amount
+          : cardData.balanceInfo.balance += (amount * -1);
+      }
+      else if (cardData.accInfo.paymentType == PaymentType.debit) {
+        transactionType === 'credit'
+          ? cardData.balanceInfo.balance += (amount * -1)
+          : cardData.balanceInfo.balance += amount;
+      }
+      this.updateCard(cardData, cardData.accInfo.id ?? '').subscribe();
+      console.log('Monto nuevo: ', cardData?.balanceInfo.balance);
+    }
   }
 }

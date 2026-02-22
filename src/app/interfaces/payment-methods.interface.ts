@@ -15,7 +15,7 @@ export interface AccInfo{
 }
 
 export interface BalanceInfo{
-  balance: string
+  balance: number
   creditLine: number;
   cutoffDay: string;
   daysToPay: string;
